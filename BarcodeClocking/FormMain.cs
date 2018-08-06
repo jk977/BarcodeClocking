@@ -26,10 +26,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Data;
 
-namespace BarcodeClocking
-{
-    public partial class FormMain : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormMain : Form {
         #region Declarations
 
         // vars
@@ -42,8 +40,7 @@ namespace BarcodeClocking
 
         #region General Form Stuff
 
-        public FormMain()
-        {
+        public FormMain() {
             // vars
             bool goAgain;
 
@@ -51,31 +48,28 @@ namespace BarcodeClocking
             invalidChars = Path.GetInvalidFileNameChars();
 
             // check for existence of required iText DLL
-            if (!File.Exists("itextsharp.dll"))
-            {
-                do
-                {
+            if (!File.Exists("itextsharp.dll")) {
+                do {
                     // (re)set vars
                     goAgain = false;
 
-                    try
-                    {
+                    try {
                         // extract file
                         File.WriteAllBytes("itextsharp.dll", Properties.Resources.itextsharp);
-                    }
-                    catch (Exception err)
-                    {
+                    } catch (Exception err) {
                         // ask user what they want to do
-                        switch (MessageBox.Show(this, "There was an error while trying to extract the required file for generating the time sheet.\n\n" + err.Message + "\n\nAbort will close this application. Ignore will temporarily disable the option to make the time sheets.", "Extract File Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error))
-                        {
+                        switch (MessageBox.Show(this, "There was an error while trying to extract the required file for generating the time sheet.\n\n" + err.Message + "\n\nAbort will close this application. Ignore will temporarily disable the option to make the time sheets.", "Extract File Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error)) {
                             // exit the app
-                            case DialogResult.Abort: this.Close();
+                            case DialogResult.Abort:
+                                this.Close();
                                 break;
                             // try extracting the file again
-                            case DialogResult.Retry: goAgain = true;
+                            case DialogResult.Retry:
+                                goAgain = true;
                                 break;
                             // disable option to generate time sheets and add the reason why
-                            case DialogResult.Ignore: ToolStripMenuItemGenerate.Enabled = false;
+                            case DialogResult.Ignore:
+                                ToolStripMenuItemGenerate.Enabled = false;
                                 ToolStripMenuItemGenerate.ToolTipText = "The required file isn't available.";
                                 break;
                         }
@@ -90,31 +84,26 @@ namespace BarcodeClocking
             //System.Windows.Forms.Timer clockTimer = new System.Windows.Forms.Timer();
 
 
-            if (sql.GetDataTable("select employeeID from employees;").Rows.Count == 0)
-            {
+            if (sql.GetDataTable("select employeeID from employees;").Rows.Count == 0) {
                 var result = MessageBox.Show(this, "It looks like there aren't any registered cards yet. You can add a card by pressing Alt + N on the keyboard, or by clicking on the 'Add new card' option from the 'Manage Cards' menu."
                     + "\n\n Would you like to check to attemp importing an existing database?", "No Registered Cards", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk);
 
-                if (result == System.Windows.Forms.DialogResult.Yes)
-                {
+                if (result == System.Windows.Forms.DialogResult.Yes) {
                     ImportCardList cardList = new ImportCardList("cardList");
                 }
-            }
-            else
+            } else
                 autoClockOut();
 
         }
 
 
-        private void FormMain_Deactivate(object sender, EventArgs e)
-        {
+        private void FormMain_Deactivate(object sender, EventArgs e) {
             // try to keep this form activated to capture input
             Thread.Sleep(500);
             this.Activate();
         }
 
-        private void TimerInputTimeout_Tick(object sender, EventArgs e)
-        {
+        private void TimerInputTimeout_Tick(object sender, EventArgs e) {
             // reset input storage
             LabelInput.Text = "input: ";
             input = "";
@@ -126,22 +115,17 @@ namespace BarcodeClocking
             TimerInputTimeout.Enabled = false;
         }
 
-        private void StoreInput(char inputChar)
-        {
+        private void StoreInput(char inputChar) {
             // make sure no dialogs from this app are open
-            if (!(this.Visible && !this.CanFocus))
-            {
+            if (!(this.Visible && !this.CanFocus)) {
                 // make sure this is thread-safe
                 if (LabelInput.InvokeRequired)
-                    this.Invoke(new MethodInvoker(delegate() { StoreInput(inputChar); }));
-                else
-                {
+                    this.Invoke(new MethodInvoker(delegate () { StoreInput(inputChar); }));
+                else {
                     // work with backspace
-                    if (inputChar.Equals('\b'))
-                    {
+                    if (inputChar.Equals('\b')) {
                         // make sure there's at least one char to remove
-                        if ( (input != null) && input.Length > 0)
-                        {
+                        if ((input != null) && input.Length > 0) {
                             LabelInput.Text = LabelInput.Text.Substring(0, LabelInput.Text.Length - 1);
                             input = input.Substring(0, input.Length - 1);
                         }
@@ -170,8 +154,7 @@ namespace BarcodeClocking
             }
         }
 
-        private void ResetStatus()
-        {
+        private void ResetStatus() {
             LabelStatus.Text = "Waiting for card scan . . .";
         }
 
@@ -179,76 +162,57 @@ namespace BarcodeClocking
 
         #region Time Calculation Stuff
 
-        private void FormMain_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        private void FormMain_KeyPress(object sender, KeyPressEventArgs e) {
             // vars
             int timeStampId;
             string firstName;
 
             // check for user/scanner pressing enter
-            if (e.KeyChar.Equals('\r') || e.KeyChar.Equals('\n'))
-            {
+            if (e.KeyChar.Equals('\r') || e.KeyChar.Equals('\n')) {
                 // remove leading and trailing spaces
                 input = input.Trim();
 
                 // check for existence of card
-                if (Helper.EmployeeExists(input, sql))
-                {
-                    dt= sql.GetDataTable("select * from employees where employeeID=" + input + ";");
+                if (Helper.EmployeeExists(input, sql)) {
+                    dt = sql.GetDataTable("select * from employees where employeeID=" + input + ";");
                     timeStampId = int.Parse(dt.Rows[0].ItemArray[6].ToString());
                     firstName = dt.Rows[0].ItemArray[1].ToString();
 
                     // check for clock-in or -out
-                    if ( timeStampId > 0 )
-                    {
-                        try
-                        {
-                            
-
+                    if (timeStampId > 0) {
+                        try {
                             // clock out
                             Dictionary<String, String> data = new Dictionary<String, String>();
                             data.Add("clockOut", DateTime.Now.ToString(StringFormats.sqlTimeFormat));
-
                             sql.Update("timeStamps", data, String.Format("timeStamps.id = {0}", timeStampId));
-
-
-                            sql.ExecuteNonQuery("update employees set currentClockInId = 0 where employeeId="+input+";");
-                            
-                        }
-                        catch (Exception err)
-                        {
+                            sql.ExecuteNonQuery("update employees set currentClockInId = 0 where employeeId=" + input + ";");
+                        } catch (Exception err) {
                             MessageBox.Show(this, "There was an error while trying to clock you out.\n\n" + err.Message, "Clock Out Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
                         // calculate time logged
-                        dt = sql.GetDataTable("select strftime('%s', clockOut) - strftime('%s', clockIn) from timeStamps where id="+timeStampId+";");
+                        dt = sql.GetDataTable("select strftime('%s', clockOut) - strftime('%s', clockIn) from timeStamps where id=" + timeStampId + ";");
                         TimeSpan diff = TimeSpan.FromSeconds(long.Parse(dt.Rows[0].ItemArray[0].ToString()));
 
                         // show confirmation
                         LabelStatus.Text = "Goodbye " + firstName + ".\nYou logged " + GenerateClockedTime(diff) + ".";
                         TimerInputTimeout.Interval = 3000;
                         TimerInputTimeout.Enabled = true;
-                    }
-                    else
-                    {
+                    } else {
                         // clock in
-                        try
-                        {
+                        try {
                             Dictionary<String, String> data = new Dictionary<String, String>();
                             data.Add("employeeID", input);
                             data.Add("clockIn", DateTime.Now.ToString(StringFormats.sqlTimeFormat));
 
-
                             sql.Insert("timeStamps", data);
                             dt = sql.GetDataTable("select seq from sqlite_sequence where name='timeStamps';");
-                            
+
                             data.Clear();
                             data.Add("currentClockInId", dt.Rows[0].ItemArray[0].ToString());
-                            
+
                             sql.Update("employees", data, String.Format("employees.employeeId = {0}", input));
-                        }
-                        catch (Exception err)
-                        {
+                        } catch (Exception err) {
                             MessageBox.Show(this, "There was an error while trying to clock you in.\n\n" + err.Message, "Clock In Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
 
@@ -257,10 +221,7 @@ namespace BarcodeClocking
                         TimerInputTimeout.Interval = 2500;
                         TimerInputTimeout.Enabled = true;
                     }
-
-                }
-                else
-                {
+                } else {
                     // notify user of unrecognized card
                     LabelStatus.Text = "Unrecognized card!";
                     TimerInputTimeout.Interval = 2500;
@@ -270,14 +231,12 @@ namespace BarcodeClocking
                 // reset input storage
                 LabelInput.Text = "input: ";
                 input = "";
-            }
-            else
+            } else
                 // add the input
                 StoreInput(e.KeyChar);
         }
 
-        private string GenerateClockedTime(TimeSpan diff)
-        {
+        private string GenerateClockedTime(TimeSpan diff) {
             // vars
             bool days = false;
             bool hours = false;
@@ -296,8 +255,7 @@ namespace BarcodeClocking
                 seconds = true;
 
             // create logged time text
-            if (days)
-            {
+            if (days) {
                 // add days value
                 if (diff.Days > 1)
                     loggedTime = diff.Days.ToString() + " days";
@@ -309,8 +267,7 @@ namespace BarcodeClocking
                 if (hours || minutes || seconds)
                     loggedTime = loggedTime + ", ";
             }
-            if (hours)
-            {
+            if (hours) {
                 // add "and" if there were days, and no minutes or seconds
                 if (days && !(minutes || seconds))
                     loggedTime = loggedTime + "and ";
@@ -326,8 +283,7 @@ namespace BarcodeClocking
                 if (minutes || seconds)
                     loggedTime = loggedTime + ", ";
             }
-            if (minutes)
-            {
+            if (minutes) {
                 // add "and" if there were days or hours, and no seconds
                 if ((days || hours) && !seconds)
                     loggedTime = loggedTime + "and ";
@@ -343,8 +299,7 @@ namespace BarcodeClocking
                 if (seconds)
                     loggedTime = loggedTime + ", ";
             }
-            if (seconds)
-            {
+            if (seconds) {
                 // add "and" if there was a previous value
                 if (days || hours || minutes)
                     loggedTime = loggedTime + "and ";
@@ -365,8 +320,7 @@ namespace BarcodeClocking
             return loggedTime;
         }
 
-        private long Base36Decode(string inputString)
-        { // this method is based on the code found at https://en.wikipedia.org/wiki/Base_36#C.23_implementation (on 12/16/14)
+        private long Base36Decode(string inputString) { // this method is based on the code found at https://en.wikipedia.org/wiki/Base_36#C.23_implementation (on 12/16/14)
             // vars
             string Clist = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             long result = 0;
@@ -376,8 +330,7 @@ namespace BarcodeClocking
             inputString = inputString.ToUpper();
 
             // go through each char in input string
-            for (int i = inputString.Length - 1; i >= 0; i--)
-            {
+            for (int i = inputString.Length - 1; i >= 0; i--) {
                 // find position value
                 int pos = Clist.IndexOf(inputString[i]);
 
@@ -401,14 +354,12 @@ namespace BarcodeClocking
 
         #region ToolStrip Menu Items
 
-        private void ToolStripMenuItemExit_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
             // close this app
             this.Close();
         }
 
-        private void ToolStripMenuItemNewCard_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemNewCard_Click(object sender, EventArgs e) {
             // change status
             LabelStatus.Text = "Waiting for new card to be added . . .";
 
@@ -420,8 +371,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemEdit_Click(object sender, EventArgs e) {
             // change status
             LabelStatus.Text = "Waiting for card editing to finish . . .";
 
@@ -433,8 +383,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void ToolStripMenuItemRemoveCard_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemRemoveCard_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for card removal to complete . . .";
 
@@ -446,8 +395,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void TimeSheetToolStripMenuItemGenerate_Click(object sender, EventArgs e)
-        {
+        private void TimeSheetToolStripMenuItemGenerate_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for time sheet to be generated . . .";
 
@@ -459,8 +407,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void ToolStripMenuItemAbout_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemAbout_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for About window to close . . .";
 
@@ -472,8 +419,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void ToolStripMenuItemEditPast_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemEditPast_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for past time editor to close . . .";
 
@@ -485,8 +431,7 @@ namespace BarcodeClocking
             ResetStatus();
         }
 
-        private void ToolStripMenuItemAddTime_Click(object sender, EventArgs e)
-        {
+        private void ToolStripMenuItemAddTime_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for additional time to be added . . .";
 
@@ -502,8 +447,7 @@ namespace BarcodeClocking
 
         //http://stackoverflow.com/questions/11952075/timer-refresh-functionality-for-text-box
 
-        private void clockTimer_Tick(object sender, EventArgs e)
-        {
+        private void clockTimer_Tick(object sender, EventArgs e) {
             Clock.Text = DateTime.Now.ToString("hh:mm:ss tt");
             dateBox.Text = DateTime.Now.ToString("D");
 
@@ -511,41 +455,35 @@ namespace BarcodeClocking
                 autoClockOut();
         }
 
-        private void autoClockOut()
-        {
-            DataTable toClockOut = sql.GetDataTable("select timeStamps.employeeID, " 
+        private void autoClockOut() {
+            DataTable toClockOut = sql.GetDataTable("select timeStamps.employeeID, "
             + "timeStamps.id as timeStampId, timeStamps.clockIn, avgHours.clockOut from avgHours "
-            + "join timeStamps join employees where avgHours.employeeID = timeStamps.employeeID " 
+            + "join timeStamps join employees where avgHours.employeeID = timeStamps.employeeID "
             + "and time(timeStamps.clockIn) <= time(avgHours.clockIn, '+15 minutes') "
             + "and time(timeStamps.clockIn) >= time(avgHours.clockIn, '-15 minutes') "
             + "and cast(strftime('%w', timeStamps.clockIn) as integer) = avgHours.dayOfWeek "
             + "and timeStamps.id = employees.currentClockInId;");
 
-            if(toClockOut.Rows.Count > 0)
-            {
-                foreach(DataRow row in toClockOut.Rows)
-                {
-                    try 
-                    {
+            if (toClockOut.Rows.Count > 0) {
+                foreach (DataRow row in toClockOut.Rows) {
+                    try {
                         DateTime clockIn = DateTime.Parse(row.ItemArray[2].ToString());
                         string[] clockOutStr = row.ItemArray[3].ToString().Split(':');
                         DateTime clockOut = clockIn.Date + new TimeSpan(int.Parse(clockOutStr[0]), int.Parse(clockOutStr[1]), 0);
 
-                        
+
 
 
                         Dictionary<String, String> data = new Dictionary<String, String>();
                         data.Add("clockOut", clockOut.ToString(StringFormats.sqlTimeFormat));
 
 
-                        sql.Update("timeStamps", data, "timeStamps.id = " + row.ItemArray[1].ToString() );
+                        sql.Update("timeStamps", data, "timeStamps.id = " + row.ItemArray[1].ToString());
 
                         sql.ExecuteNonQuery("update employees set currentClockInId = 0 where employeeId=" + row.ItemArray[0].ToString() + ";");
 
-                    }
-                    catch(Exception err)
-                    {
-                        File.WriteAllText("AutoClockOutError-"+row.ItemArray[0].ToString()+".txt", "AutoClockOutError: " + err.Message + "\r\n\r\n");
+                    } catch (Exception err) {
+                        File.WriteAllText("AutoClockOutError-" + row.ItemArray[0].ToString() + ".txt", "AutoClockOutError: " + err.Message + "\r\n\r\n");
                     }
 
                 }
@@ -554,8 +492,7 @@ namespace BarcodeClocking
 
         }
 
-        private void editAvgHoursToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        private void editAvgHoursToolStripMenuItem_Click(object sender, EventArgs e) {
             // update status
             LabelStatus.Text = "Waiting for Avg. Hours window to close . . .";
 

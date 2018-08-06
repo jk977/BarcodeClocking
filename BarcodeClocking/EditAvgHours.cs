@@ -24,22 +24,17 @@ using System.Data;
 using System.Windows.Forms;
 using System.Globalization;
 
-namespace BarcodeClocking
-{
-    public partial class EditAvgHours : Form
-    {
+namespace BarcodeClocking {
+    public partial class EditAvgHours : Form {
         private SQLiteDatabase sql = new SQLiteDatabase();
         private DataTable dt;
 
-        public EditAvgHours()
-        {
+        public EditAvgHours() {
             InitializeComponent();
-
             this.DisableUI();
         }
 
-        private void DisableUI()
-        {
+        private void DisableUI() {
             this.SaveButton.Enabled = false;
             this.DeleteButton.Enabled = false;
             this.ClearButton.Enabled = false;
@@ -49,21 +44,17 @@ namespace BarcodeClocking
 
         }
 
-        private void EnableUI()
-        {
+        private void EnableUI() {
             this.SaveButton.Enabled = true;
             this.DeleteButton.Enabled = true;
             this.ClearButton.Enabled = true;
             this.ClockInTimePicker.Enabled = true;
             this.ClockOutTimePicker.Enabled = true;
             this.DayOfWeekComboBox.Enabled = true;
-
         }
 
-        private void AvgHoursGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-            if (this.AvgHoursGridView.SelectedRows.Count > 0)
-            {
+        private void AvgHoursGridView_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e) {
+            if (this.AvgHoursGridView.SelectedRows.Count > 0) {
                 DateTime clockIn;
                 DateTime clockOut;
                 DateTime.TryParseExact(e.Row.Cells[2].Value.ToString(), "HH:mm", null, DateTimeStyles.None, out clockIn);
@@ -77,88 +68,53 @@ namespace BarcodeClocking
                 // enable UI
                 this.EnableUI();
                 this.SaveButton.Text = "Save";
-
             }
         }
 
-        private void LoadButton_Click(object sender, EventArgs e)
-        {
-            if(TextBoxCardID.Text != "")
-            {
-
-
-                try
-                {
-                    if (Helper.EmployeeExists(TextBoxCardID.Text, sql))
-                    {
+        private void LoadButton_Click(object sender, EventArgs e) {
+            if (TextBoxCardID.Text != "") {
+                try {
+                    if (Helper.EmployeeExists(TextBoxCardID.Text, sql)) {
                         //Disable UIs
                         this.TextBoxCardID.Enabled = false;
                         this.LoadButton.Enabled = false;
 
-
                         dt = sql.GetDataTable("select id, dayOfWeek as Day, clockIn, clockOut from avgHours where employeeId=" + TextBoxCardID.Text + " order by dayOfWeek asc;");
 
-                        if (dt.Rows.Count > 0)
-                        {
+                        if (dt.Rows.Count > 0) {
                             this.AvgHoursGridView.DataSource = dt;
-
                             this.AvgHoursGridView.ClearSelection();
+                            this.AvgHoursGridView.Columns[0].Visible = false; // hide id column, used to determine which entry to update/remove 
 
-                            //Hide id column, used to determine which entry to update/remove 
-                            this.AvgHoursGridView.Columns[0].Visible = false;
-
-
-
-                            foreach (DataGridViewColumn column in AvgHoursGridView.Columns)
-                            {
+                            foreach (DataGridViewColumn column in AvgHoursGridView.Columns) {
                                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
                             }
 
-
-
                             this.AvgHoursGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.AvgHoursGridView_RowStateChanged);
-
-                        }
-                        else
-                        {
+                        } else {
                             MessageBox.Show("No entries were found for this ID,\n use the fields below to add one.", "No entries found!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
+
                         this.SetAddButton();
-                    }
-                    else
+                    } else
                         throw new ArgumentException("The ID you entered does not exist, please make sure ID was entered correctly.");
-
-
-                }
-                catch (Exception err)
-                {
+                } catch (Exception err) {
                     MessageBox.Show(err.Message, "An Error occured!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 }
-
             }
         }
 
-
-        
         private void AvgHoursGridView_CellFormatting(object sender,
-            System.Windows.Forms.DataGridViewCellFormattingEventArgs e)
-        {
-            
-            if (AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("clockIn")
-                || AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("clockOut") )
-            {
+            System.Windows.Forms.DataGridViewCellFormattingEventArgs e) {
+
+            if (AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("clockIn") ||
+                AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("clockOut")) {
                 DateTime time;
-
                 DateTime.TryParseExact(e.Value.ToString(), "HH:mm", null, DateTimeStyles.None, out time);
-
                 e.Value = time.ToString("h:mm tt");
 
-            }
-            else if(AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("Day"))
-            {
-                switch (e.Value.ToString())
-                {
+            } else if (AvgHoursGridView.Columns[e.ColumnIndex].Name.Equals("Day")) {
+                switch (e.Value.ToString()) {
                     case "1":
                         e.Value = "Mon";
                         break;
@@ -183,11 +139,8 @@ namespace BarcodeClocking
             }
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                
+        private void SaveButton_Click(object sender, EventArgs e) {
+            try {
                 string dayOfWeek = (DayOfWeekComboBox.SelectedIndex + 1).ToString();
                 string clockIn = ClockInTimePicker.Value.ToString("HH:mm");
                 string clockOut = ClockOutTimePicker.Value.ToString("HH:mm");
@@ -197,27 +150,22 @@ namespace BarcodeClocking
                 data.Add("clockIn", clockIn);
                 data.Add("clockOut", clockOut);
 
-                if (this.SaveButton.Text == "Save" && AvgHoursGridView.SelectedRows.Count > 0)
-                {
+                if (this.SaveButton.Text == "Save" && AvgHoursGridView.SelectedRows.Count > 0) {
                     string entryId = AvgHoursGridView.SelectedRows[0].Cells[0].Value.ToString();
-                    if (sql.Update("avgHours", data, String.Format("avgHours.id = {0}", entryId)))
-                    {
+
+                    if (sql.Update("avgHours", data, String.Format("avgHours.id = {0}", entryId))) {
                         AvgHoursGridView.SelectedRows[0].Cells[1].Value = dayOfWeek;
                         AvgHoursGridView.SelectedRows[0].Cells[2].Value = clockIn;
                         AvgHoursGridView.SelectedRows[0].Cells[3].Value = clockOut;
 
                         this.SetAddButton();
                     }
-                }
-                else if(this.SaveButton.Text == "Add" && AvgHoursGridView.SelectedRows.Count == 0)
-                {
+                } else if (this.SaveButton.Text == "Add" && AvgHoursGridView.SelectedRows.Count == 0) {
                     data.Add("employeeID", this.TextBoxCardID.Text.Trim());
-                    if(sql.Insert("avgHours", data))
-                    {
+                    if (sql.Insert("avgHours", data)) {
                         DataTable dt = AvgHoursGridView.DataSource as DataTable;
 
-                        if(dt == null)
-                        {
+                        if (dt == null) {
                             dt = new DataTable();
                             dt.Columns.Add("id", typeof(int));
                             dt.Columns.Add("Day", typeof(string));
@@ -245,46 +193,35 @@ namespace BarcodeClocking
                         this.AvgHoursGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.AvgHoursGridView_RowStateChanged);
 
                     }
-
                 }
-            }
-            catch (Exception err)
-            {
+            } catch (Exception err) {
                 MessageBox.Show(this, "There was an error while trying to save the entry.\n\n" + err.Message, "Save Avg Hours Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
 
-        private void DeleteButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
+        private void DeleteButton_Click(object sender, EventArgs e) {
+            try {
                 string toDeleteId = this.AvgHoursGridView.SelectedRows[0].Cells[0].Value.ToString();
                 int rowId = this.AvgHoursGridView.SelectedRows[0].Index;
 
-                if(sql.Delete("avgHours", "id=" + toDeleteId))
-                {
+                if (sql.Delete("avgHours", "id=" + toDeleteId)) {
                     this.DisableUI();
                     this.AvgHoursGridView.RowStateChanged -= new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.AvgHoursGridView_RowStateChanged);
                     this.AvgHoursGridView.Rows.RemoveAt(rowId);
                     this.AvgHoursGridView.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.AvgHoursGridView_RowStateChanged);
                     this.SetAddButton();
-
                 }
-            }
-            catch (Exception err)
-            {
+            } catch (Exception err) {
                 MessageBox.Show(this, "There was an error while trying to delete the entry.\n\n" + err.Message, "Delete Avg Hours Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void ClearButton_Click(object sender, EventArgs e)
-        {
+        private void ClearButton_Click(object sender, EventArgs e) {
             this.SetAddButton();
         }
 
-        private void SetAddButton()
-        {
+        private void SetAddButton() {
             this.AvgHoursGridView.ClearSelection();
             this.DeleteButton.Enabled = false;
             this.ClearButton.Enabled = false;
@@ -294,6 +231,5 @@ namespace BarcodeClocking
             this.SaveButton.Enabled = true;
             this.SaveButton.Text = "Add";
         }
-
     }
 }

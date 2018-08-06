@@ -27,18 +27,15 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Data;
 
-namespace BarcodeClocking
-{
-    public partial class FormGenerate : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormGenerate : Form {
         // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
         private DataTable dt;
         private object[] employee;
 
-        public FormGenerate()
-        {
+        public FormGenerate() {
             InitializeComponent();
 
             // set month and year selection
@@ -52,8 +49,7 @@ namespace BarcodeClocking
 
         }
 
-        private void ButtonGenerate_Click(object sender, EventArgs e)
-        {
+        private void ButtonGenerate_Click(object sender, EventArgs e) {
             // vars
             bool found = false;
             double totalHours = 0;
@@ -76,58 +72,62 @@ namespace BarcodeClocking
             dt = sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";");
 
             // check if this is the card we're looking for
-            if (dt.Rows.Count == 1)
-            {
+            if (dt.Rows.Count == 1) {
                 // mark as found
                 found = true;
 
                 employee = dt.Rows[0].ItemArray;
 
-                try
-                {
+                try {
                     // create objects for filling in pdf
                     PdfStamper pdfFormFiller = new PdfStamper(new PdfReader(Properties.Resources.StudentTimeSheet), new FileStream("StudentTimeSheet.pdf", FileMode.Create));
                     AcroFields pdfFormFields = pdfFormFiller.AcroFields;
 
                     // set position type
-                    switch (employee[5].ToString())
-                    {
-                        case "FWS": pdfFormFields.SetField("Radio Button1", "0");
+                    switch (employee[5].ToString()) {
+                        case "FWS":
+                            pdfFormFields.SetField("Radio Button1", "0");
                             break;
-                        case "SWS": pdfFormFields.SetField("Radio Button1", "1");
+                        case "SWS":
+                            pdfFormFields.SetField("Radio Button1", "1");
                             break;
-                        case "MST": pdfFormFields.SetField("Radio Button1", "2");
+                        case "MST":
+                            pdfFormFields.SetField("Radio Button1", "2");
                             break;
-                        case "HED": pdfFormFields.SetField("Radio Button1", "3");
+                        case "HED":
+                            pdfFormFields.SetField("Radio Button1", "3");
                             break;
-                        case "Help": pdfFormFields.SetField("Radio Button1", "4");
+                        case "Help":
+                            pdfFormFields.SetField("Radio Button1", "4");
                             break;
-                        case "Tutor1": pdfFormFields.SetField("Radio Button1", "5");
+                        case "Tutor1":
+                            pdfFormFields.SetField("Radio Button1", "5");
                             break;
-                        case "Tutor2": pdfFormFields.SetField("Radio Button1", "6");
+                        case "Tutor2":
+                            pdfFormFields.SetField("Radio Button1", "6");
                             break;
-                        case "TANF": pdfFormFields.SetField("Radio Button1", "7");
+                        case "TANF":
+                            pdfFormFields.SetField("Radio Button1", "7");
                             break;
-                        default: pdfFormFields.SetField("Radio Button1", "Off");
+                        default:
+                            pdfFormFields.SetField("Radio Button1", "Off");
                             break;
                     }
 
                     //Fill name field if last name has value
-                    if (employee[2].ToString().Length > 0)
-                    {
+                    if (employee[2].ToString().Length > 0) {
                         if ((employee[3].ToString().Length > 0))
                             pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
-                                + ", " + employee[1].ToString() + ", " + employee[3].ToString() );
+                                + ", " + employee[1].ToString() + ", " + employee[3].ToString());
                         else
-                            pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString() 
-                                + ", " + employee[1].ToString() );
-                    }
-                    else
+                            pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
+                                + ", " + employee[1].ToString());
+                    } else
                         MessageBox.Show(this, "It appears you haven't added your last name to your profile. Please add your last name so your TimeSheet will be accepted.", "Last name missing!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 
                     // set student id
-                    pdfFormFields.SetField("STUDENT ID", employee[0].ToString() );
+                    pdfFormFields.SetField("STUDENT ID", employee[0].ToString());
 
                     // set month
                     pdfFormFields.SetField("MONTH", ComboBoxMonth.Text);
@@ -135,8 +135,7 @@ namespace BarcodeClocking
                     // set year
                     pdfFormFields.SetField("YEAR", NumericUpDownYear.Value.ToString());
 
-                    try
-                    {
+                    try {
                         // get time log
                         dt = sql.GetDataTable("select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut "
                              + "from timeStamps where employeeID=" + TextBoxCardID.Text.Trim()
@@ -149,20 +148,17 @@ namespace BarcodeClocking
                         DateTime monthEnd = monthStart.AddMonths(1);
 
                         // go through each clock-in/-out entry
-                        foreach (DataRow entry in dt.Rows)
-                        {
+                        foreach (DataRow entry in dt.Rows) {
                             // get start time
                             DateTime clockedIn = DateTime.Parse(entry.ItemArray[0].ToString());
-                                
+
                             // watch for an entry that doesn't have a clock-out time yet
                             DateTime clockedOut;
-                            if (entry.ItemArray[1].ToString().Length == 0)
-                            {
+                            if (entry.ItemArray[1].ToString().Length == 0) {
                                 MessageBox.Show(this, "It appears you are currently clocked in.\n\n Please make sure to clock out before printing your timesheet\n so that your hours are calcuated correctly.", "You are still clocked in!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                 clockedOut = DateTime.Now;
-                            }
-                            else
+                            } else
                                 clockedOut = DateTime.Parse(entry.ItemArray[1].ToString());
 
                             // make sure some part(s) is/are in the respective month
@@ -178,17 +174,14 @@ namespace BarcodeClocking
                                     // clocked out after date
                                     && (clockedOut >= monthEnd)
                                 )
-                            )
-                            {
+                            ) {
                                 // check for both times existing on the same date
-                                if (clockedIn.Date.Equals(clockedOut.Date))
-                                {
+                                if (clockedIn.Date.Equals(clockedOut.Date)) {
                                     // figure out the difference and set time for respective day
                                     hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
                                 }
                                 // figure out time on the respective days between the times
-                                else
-                                {
+                                else {
                                     // make sure clocked in time is within respective month
                                     if (clockedIn < monthStart)
                                         clockedIn = monthStart;
@@ -203,8 +196,7 @@ namespace BarcodeClocking
 
                                     // add 24 hours for each full day between clocked in and out times
                                     clockedIn = midNight;
-                                    while (clockedIn.Day < clockedOut.Day)
-                                    {
+                                    while (clockedIn.Day < clockedOut.Day) {
                                         hours[clockedIn.Day - 1] += 24.0;
                                         clockedIn = clockedIn.AddDays(1.0);
                                     }
@@ -216,8 +208,7 @@ namespace BarcodeClocking
                         }
 
                         // set logged time
-                        for (int ii = 0; ii < 31; ii++)
-                        {
+                        for (int ii = 0; ii < 31; ii++) {
                             // round value to nearest fourth
                             // see http://stackoverflow.com/a/2826278/3404349
                             hours[ii] = Math.Round((hours[ii] * 4.0), MidpointRounding.ToEven) / 4.0;
@@ -232,14 +223,12 @@ namespace BarcodeClocking
                         foreach (double hour in hours)
                             totalHours += hour;
                         pdfFormFields.SetField("TOTAL HOURS", totalHours.ToString("#.00"));
-                    }
-                    catch (Exception err)
-                    {
+                    } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to open your time log file. Was someone playing with the database files?\n\n" + err.Message + "\n\n" + err.StackTrace, "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     // set hourly rate
-                    pdfFormFields.SetField("HOURLY RATE", employee[4].ToString() );
+                    pdfFormFields.SetField("HOURLY RATE", employee[4].ToString());
 
                     // leave the form open to subsequent manual edits
                     pdfFormFiller.FormFlattening = false;
@@ -247,51 +236,40 @@ namespace BarcodeClocking
                     // close the pdf
                     pdfFormFiller.Close();
 
-                    try
-                    {
+                    try {
                         // open finished pdf file
                         Process openedFile = Process.Start("StudentTimeSheet.pdf");
-                            
+
                         // wait up to 10 minutes for process to close
                         ButtonGenerate.Text = "Waiting for Adobe Reader to close . . .";
                         openedFile.WaitForExit(600000);
 
-                        try
-                        {
+                        try {
                             // check for process close or wait time-out
-                            if (!openedFile.HasExited)
-                            {
+                            if (!openedFile.HasExited) {
                                 // notify user the file was not automatically deleted
                                 if (MessageBox.Show(this, "Adobe Reader did not close within 10 minutes. It needs to be closed in order to delete the Time Sheet PDF file (recommended for security). Please close Adobe Reader and click OK to delete the file. Click Cancel to skip deleting the file.", "Process Wait-Close Time Out", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
                                     // delete file if requested
                                     File.Delete("StudentTimeSheet.pdf");
-                            }
-                            else
+                            } else
                                 // delete file
                                 File.Delete("StudentTimeSheet.pdf");
-                        }
-                        catch (Exception err)
-                        {
+                        } catch (Exception err) {
                             MessageBox.Show(this, "There was an error while trying to delete the Student Time Sheet PDF file.\n\n" + err.Message, "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }
-                    catch (Exception err)
-                    {
+                    } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to open the PDF file for your review.\n\n" + err.Message, "Open File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                  
-                }
-                catch (Exception err)
-                {
+
+                } catch (Exception err) {
                     MessageBox.Show(this, "There was an error while trying to create the PDF file.\n\n" + err.Message, "File Creation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            
-            
+
+
             // notify user if card wasn't found
-            if (!found)
-            {
+            if (!found) {
                 MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

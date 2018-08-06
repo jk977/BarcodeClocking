@@ -23,17 +23,14 @@ using System.IO;
 using System.Windows.Forms;
 using System.Data;
 
-namespace BarcodeClocking
-{
-    public partial class FormRemoveCard : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormRemoveCard : Form {
         // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
         private DataTable dt;
 
-        public FormRemoveCard()
-        {
+        public FormRemoveCard() {
             InitializeComponent();
 
             // get list of invalid chars for system
@@ -41,33 +38,27 @@ namespace BarcodeClocking
 
         }
 
-        private void ButtonRemove_Click(object sender, EventArgs e)
-        {
+        private void ButtonRemove_Click(object sender, EventArgs e) {
             // vars
             bool found = false;
 
             dt = sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";");
 
             // check if this is the card we're looking for
-            if (dt.Rows.Count == 1)
-            {
+            if (dt.Rows.Count == 1) {
                 // mark as found
                 found = true;
 
                 // confirm deletion of card
-                if (MessageBox.Show(this, "Are you sure you want to delete " + dt.Rows[0].ItemArray[1].ToString() + "'s card?\n(Card/Student ID: " + dt.Rows[0].ItemArray[0].ToString() + ")", "Confirm Card Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-                {
+                if (MessageBox.Show(this, "Are you sure you want to delete " + dt.Rows[0].ItemArray[1].ToString() + "'s card?\n(Card/Student ID: " + dt.Rows[0].ItemArray[0].ToString() + ")", "Confirm Card Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
 
                     // write to file
-                    try
-                    {
+                    try {
                         sql.Delete("employees", String.Format("employeeID = {0}", dt.Rows[0].ItemArray[0].ToString()));
-                        if(CheckBoxDelTimeLog.Checked == true)
+                        if (CheckBoxDelTimeLog.Checked == true)
                             sql.Delete("timeStamps", String.Format("employeeID = {0}", dt.Rows[0].ItemArray[0].ToString()));
 
-                    }
-                    catch(Exception err)
-                    {
+                    } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to remove the card.\n\n" + err.Message, "File Deletion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 

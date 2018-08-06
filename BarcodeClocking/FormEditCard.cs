@@ -24,17 +24,14 @@ using System.Data;
 using System.IO;
 using System.Collections.Generic;
 
-namespace BarcodeClocking
-{
-    public partial class FormEditCard : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormEditCard : Form {
         // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
         private DataTable dt;
 
-        public FormEditCard()
-        {
+        public FormEditCard() {
             InitializeComponent();
 
             // get list of invalid chars for system
@@ -42,25 +39,22 @@ namespace BarcodeClocking
 
         }
 
-        private void TextBoxCardID_KeyDown(object sender, KeyEventArgs e)
-        {
+        private void TextBoxCardID_KeyDown(object sender, KeyEventArgs e) {
             // vars
             bool found = false;
 
             // check for user or scanner 'pressing' enter
-            if (e.KeyData.ToString().Equals("Return"))
-            {
+            if (e.KeyData.ToString().Equals("Return")) {
                 // don't let the textbox handle it further
                 e.SuppressKeyPress = true;
 
                 // don't allow changing the card id
                 TextBoxCardID.ReadOnly = true;
 
-                dt = sql.GetDataTable("select * from employees where employeeID="+TextBoxCardID.Text.Trim()+ ";");
+                dt = sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";");
 
                 // check if this is the card we're looking for
-                if (dt.Rows.Count == 1)
-                {
+                if (dt.Rows.Count == 1) {
                     // make note of card's position
                     found = true;
 
@@ -79,8 +73,7 @@ namespace BarcodeClocking
                     RadioButtonTANF.Enabled = true;
                     ButtonSave.Enabled = true;
 
-                    try
-                    {
+                    try {
                         // first name
                         TextBoxFirstName.Text = dt.Rows[0].ItemArray[1].ToString();
 
@@ -94,39 +87,43 @@ namespace BarcodeClocking
                         NumericUpDownHrRate.Value = Decimal.Parse(dt.Rows[0].ItemArray[4].ToString());
 
                         // position type
-                        switch (dt.Rows[0].ItemArray[5].ToString())
-                        {
-                            case "FWS": RadioButtonFWS.Checked = true;
+                        switch (dt.Rows[0].ItemArray[5].ToString()) {
+                            case "FWS":
+                                RadioButtonFWS.Checked = true;
                                 break;
-                            case "SWS": RadioButtonSWS.Checked = true;
+                            case "SWS":
+                                RadioButtonSWS.Checked = true;
                                 break;
-                            case "MST": RadioButtonMST.Checked = true;
+                            case "MST":
+                                RadioButtonMST.Checked = true;
                                 break;
-                            case "HED": RadioButtonHED.Checked = true;
+                            case "HED":
+                                RadioButtonHED.Checked = true;
                                 break;
-                            case "Help": RadioButtonHelp.Checked = true;
+                            case "Help":
+                                RadioButtonHelp.Checked = true;
                                 break;
-                            case "Tutor1": RadioButtonTutor1.Checked = true;
+                            case "Tutor1":
+                                RadioButtonTutor1.Checked = true;
                                 break;
-                            case "Tutor2": RadioButtonTutor2.Checked = true;
+                            case "Tutor2":
+                                RadioButtonTutor2.Checked = true;
                                 break;
-                            case "TANF": RadioButtonTANF.Checked = true;
+                            case "TANF":
+                                RadioButtonTANF.Checked = true;
                                 break;
                         }
 
                         // automatically go to the next text box
                         TextBoxFirstName.Focus();
-                    }
-                    catch (Exception err)
-                    {
+                    } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to load your info.\nWas someone playing with the database files?\n\n" + err.Message, "Clocked Time Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                 }
 
                 // notify user if card wasn't found
-                if (!found)
-                {
+                if (!found) {
                     MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     TextBoxCardID.Clear();
                     TextBoxCardID.ReadOnly = false;
@@ -135,14 +132,12 @@ namespace BarcodeClocking
             }
         }
 
-        private void ButtonSave_Click(object sender, EventArgs e)
-        {
+        private void ButtonSave_Click(object sender, EventArgs e) {
             // vars
             string posType = "";
 
             // check for blank first name
-            if (TextBoxFirstName.Text.Length == 0)
-            {
+            if (TextBoxFirstName.Text.Length == 0) {
                 if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                     TextBoxFirstName.Text = TextBoxCardID.Text;
             }
@@ -165,19 +160,16 @@ namespace BarcodeClocking
             else if (RadioButtonTANF.Checked)
                 posType = "TANF";
 
-            try
-            {
+            try {
                 Dictionary<String, String> data = new Dictionary<String, String>();
                 data.Add("firstName", TextBoxFirstName.Text);
                 data.Add("lastName", TextBoxLastName.Text);
                 data.Add("MiddleName", TextBoxMI.Text);
-                data.Add("hourlyRate", NumericUpDownHrRate.Value.ToString() );
+                data.Add("hourlyRate", NumericUpDownHrRate.Value.ToString());
                 data.Add("employeeType", posType);
 
                 sql.Update("employees", data, String.Format("employees.employeeID = {0}", TextBoxCardID.Text));
-            }
-            catch (Exception err)
-            {
+            } catch (Exception err) {
                 MessageBox.Show(this, "There was an error while trying to save the card info edits.\nWas someone playing with the database files?\n\n" + err.Message, "Clocked Time Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -186,11 +178,9 @@ namespace BarcodeClocking
             this.Close();
         }
 
-        private void FormEditCard_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        private void FormEditCard_FormClosing(object sender, FormClosingEventArgs e) {
             // check for unsaved edits
-            if (ButtonSave.Enabled)
-            {
+            if (ButtonSave.Enabled) {
                 // ask user if they want to save edits
                 if (MessageBox.Show(this, "Are you sure you want to close? Any unsaved changes will be lost.", "Unsaved Card Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.No)
                     e.Cancel = true;

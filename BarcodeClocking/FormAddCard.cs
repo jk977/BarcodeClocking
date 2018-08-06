@@ -23,49 +23,41 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace BarcodeClocking
-{
-    public partial class FormAddCard : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormAddCard : Form {
         // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
 
-        public FormAddCard()
-        {
+        public FormAddCard() {
             InitializeComponent();
 
             // get list of invalid chars for system
             invalidChars = Path.GetInvalidFileNameChars();
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
-        {
+        private void ButtonAdd_Click(object sender, EventArgs e) {
             // vars
             bool containsInvalidChar = false;
             string finalCardID = TextBoxCardID.Text.Trim();
             string posType = "";
 
             // check for invalid chars
-            foreach (char invalidChar in invalidChars)
-            {
-                if (finalCardID.IndexOf(invalidChar) != -1)
-                {
+            foreach (char invalidChar in invalidChars) {
+                if (finalCardID.IndexOf(invalidChar) != -1) {
                     containsInvalidChar = true;
                     finalCardID.Replace(invalidChar, '_');
                 }
             }
 
             // if there was an invalid char, notify user of ID used in app
-            if (containsInvalidChar)
-            {
+            if (containsInvalidChar) {
                 if (MessageBox.Show(this, "Your card ID format contains invalid characters for use in this program. In the future, when your card is scanned, it will be seen as " + finalCardID + " instead of " + TextBoxCardID.Text + ".", "Card ID Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.Cancel)
                     return;
             }
 
             // check for blank first name
-            if (TextBoxFirstName.Text.Length == 0)
-            {
+            if (TextBoxFirstName.Text.Length == 0) {
                 if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
                     TextBoxFirstName.Text = finalCardID;
             }
@@ -89,15 +81,13 @@ namespace BarcodeClocking
                 posType = "TANF";
 
             // verify card ID doesn't already exist
-            if (sql.GetDataTable("select * from employees where employeeID="+TextBoxCardID.Text.Trim()+ ";").Rows.Count > 0)
-            {
+            if (sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";").Rows.Count > 0) {
                 MessageBox.Show(this, "The Card ID you entered already exists! Please make sure it was entered correctly.", "Duplicate Card ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-           
-            try
-            {
+
+            try {
                 Dictionary<String, String> data = new Dictionary<String, String>();
                 data.Add("employeeID", TextBoxCardID.Text);
                 data.Add("firstName", TextBoxFirstName.Text);
@@ -108,20 +98,16 @@ namespace BarcodeClocking
                 data.Add("currentClockInId", "0");
 
                 sql.Insert("employees", data);
-            }
-            catch (Exception error)
-            {
+            } catch (Exception error) {
                 MessageBox.Show("Something went horribly wrong while trying to save your profile!\n" + error.Message);
             }
 
             this.Close();
         }
 
-        private void TextBoxCardID_KeyDown(object sender, KeyEventArgs e)
-        {
+        private void TextBoxCardID_KeyDown(object sender, KeyEventArgs e) {
             // check for user or scanner 'pressing' enter
-            if (e.KeyData.ToString().Equals("Return"))
-            {
+            if (e.KeyData.ToString().Equals("Return")) {
                 // don't let the textbox handle it further
                 e.SuppressKeyPress = true;
 

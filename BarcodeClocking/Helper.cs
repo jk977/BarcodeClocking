@@ -20,12 +20,9 @@
 
 using System.Windows.Forms;
 
-namespace BarcodeClocking
-{
-    class Helper
-    {
-        static public bool EmployeeExists(string employeeID, SQLiteDatabase sql)
-        {
+namespace BarcodeClocking {
+    class Helper {
+        static public bool EmployeeExists(string employeeID, SQLiteDatabase sql) {
             // notify user if card wasn't found
             if (sql.GetDataTable("select * from employees where employeeID=" + employeeID.Trim() + ";").Rows.Count == 1)
                 return true;
@@ -33,29 +30,25 @@ namespace BarcodeClocking
                 return false;
         }
 
-        static public void OnKeyPress(object sender, KeyPressEventArgs e)
-        {
+        static public void OnKeyPress(object sender, KeyPressEventArgs e) {
 
             e.Handled = !(IsNumberKey(e.KeyChar) || IsActionKey(e.KeyChar));
         }
 
-        static private bool IsNumberKey(char key)
-        {
+        static private bool IsNumberKey(char key) {
             //Allow 0-9 in Card ID TextBoxes
             return key >= '0' && key <= '9';
 
         }
 
-        static private bool IsActionKey(char key)
-        {
+        static private bool IsActionKey(char key) {
             //Allow DEL and BS keys in Card ID TextBoxes
             return key == '\u007f' || key == '\b';
         }
 
     }
 
-    public class StringFormats
-    {
+    public class StringFormats {
         public const string sqlTimeFormat = "yyyy-MM-dd HH:mm:ss";
         public const string timeStampFormat = "MM/dd/yyyy hh:mm:ss tt";
     }

@@ -23,16 +23,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace BarcodeClocking
-{
-    public partial class FormAddTime : Form
-    {
+namespace BarcodeClocking {
+    public partial class FormAddTime : Form {
         // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
 
-        public FormAddTime()
-        {
+        public FormAddTime() {
             InitializeComponent();
 
             // get list of invalid chars for system
@@ -43,13 +40,10 @@ namespace BarcodeClocking
             DateTimePickerOut.Value = DateTime.Now;
         }
 
-        private void TextBoxID_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
+        private void TextBoxID_KeyDown(object sender, KeyEventArgs e) {
+            try {
                 // check for user or scanner 'pressing' enter
-                if (e.KeyData.ToString().Equals("Return"))
-                {
+                if (e.KeyData.ToString().Equals("Return")) {
                     // don't let the textbox handle it further
                     e.SuppressKeyPress = true;
 
@@ -57,29 +51,24 @@ namespace BarcodeClocking
                     TextBoxCardID.ReadOnly = true;
 
                     // notify user if card wasn't found
-                    if ( !(Helper.EmployeeExists(TextBoxCardID.Text, sql)) )
-                    {
+                    if (!(Helper.EmployeeExists(TextBoxCardID.Text, sql))) {
                         MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                         // enable editing of card id
                         TextBoxCardID.ReadOnly = false;
                         TextBoxCardID.Focus();
                         TextBoxCardID.SelectAll();
-                    }
-                    else 
+                    } else
                         // move on to next control
                         DateTimePickerIn.Focus();
                 }
-            }
-            catch (Exception err)
-            {
+            } catch (Exception err) {
                 TextBoxCardID.ReadOnly = false;
                 MessageBox.Show(this, "There was an error while trying to make sure the card was recognized.\n\n" + err.Message, "Load Card List Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void DateTimePickerIn_ValueChanged(Object sender, EventArgs e)
-        {
+        private void DateTimePickerIn_ValueChanged(Object sender, EventArgs e) {
             this.DateTimePickerIn.Value = this.datePicker.Value.Date + this.DateTimePickerIn.Value.TimeOfDay;
             if (this.DateTimePickerIn.Value.TimeOfDay.Hours > this.DateTimePickerOut.Value.TimeOfDay.Hours)
                 DateTimePickerOut.Value = DateTimePickerIn.Value;
@@ -87,21 +76,17 @@ namespace BarcodeClocking
             DateTimePickerOut.MinDate = DateTimePickerIn.Value;
         }
 
-        private void ButtonAdd_Click(object sender, EventArgs e)
-        {
+        private void ButtonAdd_Click(object sender, EventArgs e) {
 
             // check for card id being validated
-            if (!TextBoxCardID.ReadOnly)
-            {
+            if (!TextBoxCardID.ReadOnly) {
                 // validate card
-                try
-                {
+                try {
                     // don't allow changing the card id
                     TextBoxCardID.ReadOnly = true;
 
                     // confirm card was found
-                    if ( !(Helper.EmployeeExists(TextBoxCardID.Text, sql)) )
-                    {
+                    if (!(Helper.EmployeeExists(TextBoxCardID.Text, sql))) {
                         // display notification
                         MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -113,9 +98,7 @@ namespace BarcodeClocking
                         // prevent further processing
                         return;
                     }
-                }
-                catch (Exception err)
-                {
+                } catch (Exception err) {
                     // enable editing of card id
                     TextBoxCardID.ReadOnly = false;
 
@@ -127,8 +110,7 @@ namespace BarcodeClocking
                 }
             }
 
-            try
-            {
+            try {
                 DateTimePickerIn.Value = this.datePicker.Value.Date + this.DateTimePickerIn.Value.TimeOfDay;
                 DateTimePickerOut.Value = this.datePicker.Value.Date + this.DateTimePickerOut.Value.TimeOfDay;
 
@@ -138,10 +120,8 @@ namespace BarcodeClocking
                 data.Add("clockOut", DateTimePickerOut.Value.ToString(StringFormats.sqlTimeFormat));
 
                 sql.Insert("timeStamps", data);
-            
-            }
-            catch (Exception err)
-            {
+
+            } catch (Exception err) {
                 MessageBox.Show(this, "There was an error while trying to save your additional time to your time log file.\n\n" + err.Message, "Add Time Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
