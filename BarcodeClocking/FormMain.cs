@@ -31,7 +31,6 @@ namespace BarcodeClocking {
         #region Declarations
 
         // vars
-        private char[] invalidChars;
         private string input;
         private SQLiteDatabase sql = new SQLiteDatabase();
         DataTable dt;
@@ -43,9 +42,6 @@ namespace BarcodeClocking {
         public FormMain() {
             // vars
             bool goAgain;
-
-            // get list of invalid chars for system
-            invalidChars = Path.GetInvalidFileNameChars();
 
             // check for existence of required iText DLL
             if (!File.Exists("itextsharp.dll")) {
@@ -61,7 +57,7 @@ namespace BarcodeClocking {
                         switch (MessageBox.Show(this, "There was an error while trying to extract the required file for generating the time sheet.\n\n" + err.Message + "\n\nAbort will close this application. Ignore will temporarily disable the option to make the time sheets.", "Extract File Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error)) {
                             // exit the app
                             case DialogResult.Abort:
-                                this.Close();
+                                Close();
                                 break;
                             // try extracting the file again
                             case DialogResult.Retry:
@@ -100,7 +96,7 @@ namespace BarcodeClocking {
         private void FormMain_Deactivate(object sender, EventArgs e) {
             // try to keep this form activated to capture input
             Thread.Sleep(500);
-            this.Activate();
+            Activate();
         }
 
         private void TimerInputTimeout_Tick(object sender, EventArgs e) {
@@ -117,15 +113,14 @@ namespace BarcodeClocking {
 
         private void StoreInput(char inputChar) {
             // make sure no dialogs from this app are open
-            if (!(this.Visible && !this.CanFocus)) {
+            if (!Visible || CanFocus) {
                 // make sure this is thread-safe
-                if (LabelInput.InvokeRequired)
-                    this.Invoke(new MethodInvoker(delegate () { StoreInput(inputChar); }));
-                else {
+                if (LabelInput.InvokeRequired) {
+                    Invoke(new MethodInvoker(delegate () { StoreInput(inputChar); }));
+                } else {
                     // work with backspace
                     if (inputChar.Equals('\b')) {
-                        // make sure there's at least one char to remove
-                        if ((input != null) && input.Length > 0) {
+                        if (input != null && input.Length > 0) {
                             LabelInput.Text = LabelInput.Text.Substring(0, LabelInput.Text.Length - 1);
                             input = input.Substring(0, input.Length - 1);
                         }
@@ -138,9 +133,6 @@ namespace BarcodeClocking {
                         // stop processing input
                         return;
                     }
-                    // replace invalid chars
-                    else if (invalidChars.Contains(inputChar))
-                        inputChar = '_';
 
                     // store input
                     LabelInput.Text = LabelInput.Text + inputChar.ToString();
@@ -231,9 +223,10 @@ namespace BarcodeClocking {
                 // reset input storage
                 LabelInput.Text = "input: ";
                 input = "";
-            } else
+            } else if (Char.IsDigit(e.KeyChar)) {
                 // add the input
                 StoreInput(e.KeyChar);
+            }
         }
 
         private string GenerateClockedTime(TimeSpan diff) {
@@ -356,7 +349,7 @@ namespace BarcodeClocking {
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
             // close this app
-            this.Close();
+            Close();
         }
 
         private void ToolStripMenuItemNewCard_Click(object sender, EventArgs e) {

@@ -28,191 +28,191 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AvgHoursGridView = new System.Windows.Forms.DataGridView();
-            this.DayOfWeekComboBox = new System.Windows.Forms.ComboBox();
-            this.DeleteButton = new System.Windows.Forms.Button();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.ClockInTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.ClockOutTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.DescLabel = new System.Windows.Forms.Label();
-            this.TextBoxCardID = new System.Windows.Forms.TextBox();
-            this.LoadButton = new System.Windows.Forms.Button();
-            this.IdLabel = new System.Windows.Forms.Label();
-            this.ClockInLabel = new System.Windows.Forms.Label();
-            this.ClockOutLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.AvgHoursGridView)).BeginInit();
-            this.SuspendLayout();
+            AvgHoursGridView = new System.Windows.Forms.DataGridView();
+            DayOfWeekComboBox = new System.Windows.Forms.ComboBox();
+            DeleteButton = new System.Windows.Forms.Button();
+            ClearButton = new System.Windows.Forms.Button();
+            SaveButton = new System.Windows.Forms.Button();
+            ClockInTimePicker = new System.Windows.Forms.DateTimePicker();
+            ClockOutTimePicker = new System.Windows.Forms.DateTimePicker();
+            DescLabel = new System.Windows.Forms.Label();
+            TextBoxCardID = new System.Windows.Forms.TextBox();
+            LoadButton = new System.Windows.Forms.Button();
+            IdLabel = new System.Windows.Forms.Label();
+            ClockInLabel = new System.Windows.Forms.Label();
+            ClockOutLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(AvgHoursGridView)).BeginInit();
+            SuspendLayout();
             // 
             // AvgHoursGridView
             // 
-            this.AvgHoursGridView.AllowUserToAddRows = false;
-            this.AvgHoursGridView.AllowUserToResizeColumns = false;
-            this.AvgHoursGridView.AllowUserToResizeRows = false;
-            this.AvgHoursGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.AvgHoursGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.AvgHoursGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.AvgHoursGridView.Location = new System.Drawing.Point(12, 102);
-            this.AvgHoursGridView.MultiSelect = false;
-            this.AvgHoursGridView.Name = "AvgHoursGridView";
-            this.AvgHoursGridView.ReadOnly = true;
-            this.AvgHoursGridView.RowHeadersVisible = false;
-            this.AvgHoursGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
-            this.AvgHoursGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.AvgHoursGridView.Size = new System.Drawing.Size(349, 150);
-            this.AvgHoursGridView.TabIndex = 3;
-            this.AvgHoursGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.AvgHoursGridView_CellFormatting);
+            AvgHoursGridView.AllowUserToAddRows = false;
+            AvgHoursGridView.AllowUserToResizeColumns = false;
+            AvgHoursGridView.AllowUserToResizeRows = false;
+            AvgHoursGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            AvgHoursGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            AvgHoursGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            AvgHoursGridView.Location = new System.Drawing.Point(12, 102);
+            AvgHoursGridView.MultiSelect = false;
+            AvgHoursGridView.Name = "AvgHoursGridView";
+            AvgHoursGridView.ReadOnly = true;
+            AvgHoursGridView.RowHeadersVisible = false;
+            AvgHoursGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            AvgHoursGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            AvgHoursGridView.Size = new System.Drawing.Size(349, 150);
+            AvgHoursGridView.TabIndex = 3;
+            AvgHoursGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(AvgHoursGridView_CellFormatting);
             // 
             // DayOfWeekComboBox
             // 
-            this.DayOfWeekComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DayOfWeekComboBox.FormattingEnabled = true;
-            this.DayOfWeekComboBox.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.DayOfWeekComboBox.Items.AddRange(new object[] {
+            DayOfWeekComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            DayOfWeekComboBox.FormattingEnabled = true;
+            DayOfWeekComboBox.ImeMode = System.Windows.Forms.ImeMode.Off;
+            DayOfWeekComboBox.Items.AddRange(new object[] {
             "Mon",
             "Tue",
             "Wed",
             "Thu",
             "Fri",
             "Sat"});
-            this.DayOfWeekComboBox.Location = new System.Drawing.Point(181, 258);
-            this.DayOfWeekComboBox.Name = "DayOfWeekComboBox";
-            this.DayOfWeekComboBox.Size = new System.Drawing.Size(84, 21);
-            this.DayOfWeekComboBox.TabIndex = 2;
+            DayOfWeekComboBox.Location = new System.Drawing.Point(181, 258);
+            DayOfWeekComboBox.Name = "DayOfWeekComboBox";
+            DayOfWeekComboBox.Size = new System.Drawing.Size(84, 21);
+            DayOfWeekComboBox.TabIndex = 2;
             // 
             // DeleteButton
             // 
-            this.DeleteButton.Location = new System.Drawing.Point(205, 340);
-            this.DeleteButton.Name = "DeleteButton";
-            this.DeleteButton.Size = new System.Drawing.Size(75, 23);
-            this.DeleteButton.TabIndex = 2;
-            this.DeleteButton.Text = "Delete";
-            this.DeleteButton.UseVisualStyleBackColor = true;
-            this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            DeleteButton.Location = new System.Drawing.Point(205, 340);
+            DeleteButton.Name = "DeleteButton";
+            DeleteButton.Size = new System.Drawing.Size(75, 23);
+            DeleteButton.TabIndex = 2;
+            DeleteButton.Text = "Delete";
+            DeleteButton.UseVisualStyleBackColor = true;
+            DeleteButton.Click += new System.EventHandler(DeleteButton_Click);
             // 
             // ClearButton
             // 
-            this.ClearButton.Location = new System.Drawing.Point(286, 311);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(75, 23);
-            this.ClearButton.TabIndex = 3;
-            this.ClearButton.Text = "Clear";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            ClearButton.Location = new System.Drawing.Point(286, 311);
+            ClearButton.Name = "ClearButton";
+            ClearButton.Size = new System.Drawing.Size(75, 23);
+            ClearButton.TabIndex = 3;
+            ClearButton.Text = "Clear";
+            ClearButton.UseVisualStyleBackColor = true;
+            ClearButton.Click += new System.EventHandler(ClearButton_Click);
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(286, 340);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveButton.TabIndex = 4;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            SaveButton.Location = new System.Drawing.Point(286, 340);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new System.Drawing.Size(75, 23);
+            SaveButton.TabIndex = 4;
+            SaveButton.Text = "Save";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += new System.EventHandler(SaveButton_Click);
             // 
             // ClockInTimePicker
             // 
-            this.ClockInTimePicker.CustomFormat = "h:mm tt";
-            this.ClockInTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.ClockInTimePicker.Location = new System.Drawing.Point(286, 258);
-            this.ClockInTimePicker.Name = "ClockInTimePicker";
-            this.ClockInTimePicker.ShowUpDown = true;
-            this.ClockInTimePicker.Size = new System.Drawing.Size(74, 20);
-            this.ClockInTimePicker.TabIndex = 5;
+            ClockInTimePicker.CustomFormat = "h:mm tt";
+            ClockInTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            ClockInTimePicker.Location = new System.Drawing.Point(286, 258);
+            ClockInTimePicker.Name = "ClockInTimePicker";
+            ClockInTimePicker.ShowUpDown = true;
+            ClockInTimePicker.Size = new System.Drawing.Size(74, 20);
+            ClockInTimePicker.TabIndex = 5;
             // 
             // ClockOutTimePicker
             // 
-            this.ClockOutTimePicker.CustomFormat = "h:mm tt";
-            this.ClockOutTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.ClockOutTimePicker.Location = new System.Drawing.Point(286, 285);
-            this.ClockOutTimePicker.Name = "ClockOutTimePicker";
-            this.ClockOutTimePicker.ShowUpDown = true;
-            this.ClockOutTimePicker.Size = new System.Drawing.Size(75, 20);
-            this.ClockOutTimePicker.TabIndex = 6;
+            ClockOutTimePicker.CustomFormat = "h:mm tt";
+            ClockOutTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            ClockOutTimePicker.Location = new System.Drawing.Point(286, 285);
+            ClockOutTimePicker.Name = "ClockOutTimePicker";
+            ClockOutTimePicker.ShowUpDown = true;
+            ClockOutTimePicker.Size = new System.Drawing.Size(75, 20);
+            ClockOutTimePicker.TabIndex = 6;
             // 
             // DescLabel
             // 
-            this.DescLabel.AutoSize = true;
-            this.DescLabel.Location = new System.Drawing.Point(6, 11);
-            this.DescLabel.Name = "DescLabel";
-            this.DescLabel.Size = new System.Drawing.Size(362, 39);
-            this.DescLabel.TabIndex = 7;
-            this.DescLabel.Text = "\"Average Hours\" are used to determine when you should have clocked out\r\n if you f" +
+            DescLabel.AutoSize = true;
+            DescLabel.Location = new System.Drawing.Point(6, 11);
+            DescLabel.Name = "DescLabel";
+            DescLabel.Size = new System.Drawing.Size(362, 39);
+            DescLabel.TabIndex = 7;
+            DescLabel.Text = "\"Average Hours\" are used to determine when you should have clocked out\r\n if you f" +
     "orgot to,or automatically fill in future dates when generating \r\ntime sheets.";
             // 
             // TextBoxCardID
             // 
-            this.TextBoxCardID.Location = new System.Drawing.Point(101, 76);
-            this.TextBoxCardID.Name = "TextBoxCardID";
-            this.TextBoxCardID.Size = new System.Drawing.Size(179, 20);
-            this.TextBoxCardID.TabIndex = 0;
-            this.TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
+            TextBoxCardID.Location = new System.Drawing.Point(101, 76);
+            TextBoxCardID.Name = "TextBoxCardID";
+            TextBoxCardID.Size = new System.Drawing.Size(179, 20);
+            TextBoxCardID.TabIndex = 0;
+            TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
 
             // 
             // LoadButton
             // 
-            this.LoadButton.Location = new System.Drawing.Point(288, 74);
-            this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(75, 23);
-            this.LoadButton.TabIndex = 1;
-            this.LoadButton.Text = "Load";
-            this.LoadButton.UseVisualStyleBackColor = true;
-            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+            LoadButton.Location = new System.Drawing.Point(288, 74);
+            LoadButton.Name = "LoadButton";
+            LoadButton.Size = new System.Drawing.Size(75, 23);
+            LoadButton.TabIndex = 1;
+            LoadButton.Text = "Load";
+            LoadButton.UseVisualStyleBackColor = true;
+            LoadButton.Click += new System.EventHandler(LoadButton_Click);
             // 
             // IdLabel
             // 
-            this.IdLabel.AutoSize = true;
-            this.IdLabel.Location = new System.Drawing.Point(34, 79);
-            this.IdLabel.Name = "IdLabel";
-            this.IdLabel.Size = new System.Drawing.Size(61, 13);
-            this.IdLabel.TabIndex = 10;
-            this.IdLabel.Text = "Student ID:";
+            IdLabel.AutoSize = true;
+            IdLabel.Location = new System.Drawing.Point(34, 79);
+            IdLabel.Name = "IdLabel";
+            IdLabel.Size = new System.Drawing.Size(61, 13);
+            IdLabel.TabIndex = 10;
+            IdLabel.Text = "Student ID:";
             // 
             // ClockInLabel
             // 
-            this.ClockInLabel.AutoSize = true;
-            this.ClockInLabel.Location = new System.Drawing.Point(126, 261);
-            this.ClockInLabel.Name = "ClockInLabel";
-            this.ClockInLabel.Size = new System.Drawing.Size(49, 13);
-            this.ClockInLabel.TabIndex = 11;
-            this.ClockInLabel.Text = "Clock In:";
+            ClockInLabel.AutoSize = true;
+            ClockInLabel.Location = new System.Drawing.Point(126, 261);
+            ClockInLabel.Name = "ClockInLabel";
+            ClockInLabel.Size = new System.Drawing.Size(49, 13);
+            ClockInLabel.TabIndex = 11;
+            ClockInLabel.Text = "Clock In:";
             // 
             // ClockOutLabel
             // 
-            this.ClockOutLabel.AutoSize = true;
-            this.ClockOutLabel.Location = new System.Drawing.Point(223, 288);
-            this.ClockOutLabel.Name = "ClockOutLabel";
-            this.ClockOutLabel.Size = new System.Drawing.Size(57, 13);
-            this.ClockOutLabel.TabIndex = 12;
-            this.ClockOutLabel.Text = "Clock Out:";
+            ClockOutLabel.AutoSize = true;
+            ClockOutLabel.Location = new System.Drawing.Point(223, 288);
+            ClockOutLabel.Name = "ClockOutLabel";
+            ClockOutLabel.Size = new System.Drawing.Size(57, 13);
+            ClockOutLabel.TabIndex = 12;
+            ClockOutLabel.Text = "Clock Out:";
             // 
             // EditAvgHours
             // 
-            this.AcceptButton = this.LoadButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 372);
-            this.Controls.Add(this.ClockOutLabel);
-            this.Controls.Add(this.ClockInLabel);
-            this.Controls.Add(this.IdLabel);
-            this.Controls.Add(this.LoadButton);
-            this.Controls.Add(this.TextBoxCardID);
-            this.Controls.Add(this.DescLabel);
-            this.Controls.Add(this.ClockOutTimePicker);
-            this.Controls.Add(this.ClockInTimePicker);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.ClearButton);
-            this.Controls.Add(this.DeleteButton);
-            this.Controls.Add(this.DayOfWeekComboBox);
-            this.Controls.Add(this.AvgHoursGridView);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "EditAvgHours";
-            this.Text = "Edit Avg Hours";
-            ((System.ComponentModel.ISupportInitialize)(this.AvgHoursGridView)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = LoadButton;
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(375, 372);
+            Controls.Add(ClockOutLabel);
+            Controls.Add(ClockInLabel);
+            Controls.Add(IdLabel);
+            Controls.Add(LoadButton);
+            Controls.Add(TextBoxCardID);
+            Controls.Add(DescLabel);
+            Controls.Add(ClockOutTimePicker);
+            Controls.Add(ClockInTimePicker);
+            Controls.Add(SaveButton);
+            Controls.Add(ClearButton);
+            Controls.Add(DeleteButton);
+            Controls.Add(DayOfWeekComboBox);
+            Controls.Add(AvgHoursGridView);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "EditAvgHours";
+            Text = "Edit Avg Hours";
+            ((System.ComponentModel.ISupportInitialize)(AvgHoursGridView)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

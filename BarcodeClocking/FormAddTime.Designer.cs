@@ -49,148 +49,148 @@ namespace BarcodeClocking
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddTime));
-            this.DateTimePickerIn = new System.Windows.Forms.DateTimePicker();
-            this.LabelTip = new System.Windows.Forms.Label();
-            this.LabelIn = new System.Windows.Forms.Label();
-            this.LabelOut = new System.Windows.Forms.Label();
-            this.DateTimePickerOut = new System.Windows.Forms.DateTimePicker();
-            this.ButtonAdd = new System.Windows.Forms.Button();
-            this.TextBoxCardID = new System.Windows.Forms.TextBox();
-            this.LabelID = new System.Windows.Forms.Label();
-            this.datePicker = new System.Windows.Forms.DateTimePicker();
-            this.DateLabel = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            DateTimePickerIn = new System.Windows.Forms.DateTimePicker();
+            LabelTip = new System.Windows.Forms.Label();
+            LabelIn = new System.Windows.Forms.Label();
+            LabelOut = new System.Windows.Forms.Label();
+            DateTimePickerOut = new System.Windows.Forms.DateTimePicker();
+            ButtonAdd = new System.Windows.Forms.Button();
+            TextBoxCardID = new System.Windows.Forms.TextBox();
+            LabelID = new System.Windows.Forms.Label();
+            datePicker = new System.Windows.Forms.DateTimePicker();
+            DateLabel = new System.Windows.Forms.Label();
+            SuspendLayout();
             // 
             // DateTimePickerIn
             // 
-            this.DateTimePickerIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DateTimePickerIn.CustomFormat = "h:mm:ss tt";
-            this.DateTimePickerIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateTimePickerIn.Location = new System.Drawing.Point(255, 95);
-            this.DateTimePickerIn.Margin = new System.Windows.Forms.Padding(2);
-            this.DateTimePickerIn.Name = "DateTimePickerIn";
-            this.DateTimePickerIn.ShowUpDown = true;
-            this.DateTimePickerIn.Size = new System.Drawing.Size(109, 20);
-            this.DateTimePickerIn.TabIndex = 2;
-            this.DateTimePickerIn.ValueChanged += new System.EventHandler(this.DateTimePickerIn_ValueChanged);
+            DateTimePickerIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            DateTimePickerIn.CustomFormat = "h:mm:ss tt";
+            DateTimePickerIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            DateTimePickerIn.Location = new System.Drawing.Point(255, 95);
+            DateTimePickerIn.Margin = new System.Windows.Forms.Padding(2);
+            DateTimePickerIn.Name = "DateTimePickerIn";
+            DateTimePickerIn.ShowUpDown = true;
+            DateTimePickerIn.Size = new System.Drawing.Size(109, 20);
+            DateTimePickerIn.TabIndex = 2;
+            DateTimePickerIn.ValueChanged += new System.EventHandler(DateTimePickerIn_ValueChanged);
             // 
             // LabelTip
             // 
-            this.LabelTip.Location = new System.Drawing.Point(9, 7);
-            this.LabelTip.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.LabelTip.Name = "LabelTip";
-            this.LabelTip.Size = new System.Drawing.Size(355, 33);
-            this.LabelTip.TabIndex = 2;
-            this.LabelTip.Text = "Scan your card or enter your Student ID, then set the clock-in and clock-out time" +
+            LabelTip.Location = new System.Drawing.Point(9, 7);
+            LabelTip.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            LabelTip.Name = "LabelTip";
+            LabelTip.Size = new System.Drawing.Size(355, 33);
+            LabelTip.TabIndex = 2;
+            LabelTip.Text = "Scan your card or enter your Student ID, then set the clock-in and clock-out time" +
     "s. Click the \"Add Time\" button to log the time.";
             // 
             // LabelIn
             // 
-            this.LabelIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelIn.AutoSize = true;
-            this.LabelIn.Location = new System.Drawing.Point(177, 98);
-            this.LabelIn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.LabelIn.Name = "LabelIn";
-            this.LabelIn.Size = new System.Drawing.Size(75, 13);
-            this.LabelIn.TabIndex = 3;
-            this.LabelIn.Text = "Clock-In Time:";
+            LabelIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            LabelIn.AutoSize = true;
+            LabelIn.Location = new System.Drawing.Point(177, 98);
+            LabelIn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            LabelIn.Name = "LabelIn";
+            LabelIn.Size = new System.Drawing.Size(75, 13);
+            LabelIn.TabIndex = 3;
+            LabelIn.Text = "Clock-In Time:";
             // 
             // LabelOut
             // 
-            this.LabelOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelOut.AutoSize = true;
-            this.LabelOut.Location = new System.Drawing.Point(170, 122);
-            this.LabelOut.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.LabelOut.Name = "LabelOut";
-            this.LabelOut.Size = new System.Drawing.Size(83, 13);
-            this.LabelOut.TabIndex = 5;
-            this.LabelOut.Text = "Clock-Out Time:";
+            LabelOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            LabelOut.AutoSize = true;
+            LabelOut.Location = new System.Drawing.Point(170, 122);
+            LabelOut.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            LabelOut.Name = "LabelOut";
+            LabelOut.Size = new System.Drawing.Size(83, 13);
+            LabelOut.TabIndex = 5;
+            LabelOut.Text = "Clock-Out Time:";
             // 
             // DateTimePickerOut
             // 
-            this.DateTimePickerOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DateTimePickerOut.CustomFormat = "h:mm:ss tt";
-            this.DateTimePickerOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateTimePickerOut.Location = new System.Drawing.Point(255, 119);
-            this.DateTimePickerOut.Margin = new System.Windows.Forms.Padding(2);
-            this.DateTimePickerOut.Name = "DateTimePickerOut";
-            this.DateTimePickerOut.ShowUpDown = true;
-            this.DateTimePickerOut.Size = new System.Drawing.Size(110, 20);
-            this.DateTimePickerOut.TabIndex = 3;
+            DateTimePickerOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            DateTimePickerOut.CustomFormat = "h:mm:ss tt";
+            DateTimePickerOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            DateTimePickerOut.Location = new System.Drawing.Point(255, 119);
+            DateTimePickerOut.Margin = new System.Windows.Forms.Padding(2);
+            DateTimePickerOut.Name = "DateTimePickerOut";
+            DateTimePickerOut.ShowUpDown = true;
+            DateTimePickerOut.Size = new System.Drawing.Size(110, 20);
+            DateTimePickerOut.TabIndex = 3;
             // 
             // ButtonAdd
             // 
-            this.ButtonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonAdd.Location = new System.Drawing.Point(255, 141);
-            this.ButtonAdd.Margin = new System.Windows.Forms.Padding(2);
-            this.ButtonAdd.Name = "ButtonAdd";
-            this.ButtonAdd.Size = new System.Drawing.Size(110, 22);
-            this.ButtonAdd.TabIndex = 4;
-            this.ButtonAdd.Text = "Add Time && Close";
-            this.ButtonAdd.UseVisualStyleBackColor = true;
-            this.ButtonAdd.Click += new System.EventHandler(this.ButtonAdd_Click);
+            ButtonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            ButtonAdd.Location = new System.Drawing.Point(255, 141);
+            ButtonAdd.Margin = new System.Windows.Forms.Padding(2);
+            ButtonAdd.Name = "ButtonAdd";
+            ButtonAdd.Size = new System.Drawing.Size(110, 22);
+            ButtonAdd.TabIndex = 4;
+            ButtonAdd.Text = "Add Time && Close";
+            ButtonAdd.UseVisualStyleBackColor = true;
+            ButtonAdd.Click += new System.EventHandler(ButtonAdd_Click);
             // 
             // TextBoxCardID
             // 
-            this.TextBoxCardID.AcceptsReturn = true;
-            this.TextBoxCardID.Location = new System.Drawing.Point(95, 43);
-            this.TextBoxCardID.Margin = new System.Windows.Forms.Padding(2);
-            this.TextBoxCardID.Name = "TextBoxCardID";
-            this.TextBoxCardID.Size = new System.Drawing.Size(270, 20);
-            this.TextBoxCardID.TabIndex = 1;
-            this.TextBoxCardID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxID_KeyDown);
+            TextBoxCardID.AcceptsReturn = true;
+            TextBoxCardID.Location = new System.Drawing.Point(95, 43);
+            TextBoxCardID.Margin = new System.Windows.Forms.Padding(2);
+            TextBoxCardID.Name = "TextBoxCardID";
+            TextBoxCardID.Size = new System.Drawing.Size(270, 20);
+            TextBoxCardID.TabIndex = 1;
+            TextBoxCardID.KeyDown += new System.Windows.Forms.KeyEventHandler(TextBoxID_KeyDown);
             // 
             // LabelID
             // 
-            this.LabelID.AutoSize = true;
-            this.LabelID.Location = new System.Drawing.Point(9, 43);
-            this.LabelID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.LabelID.Name = "LabelID";
-            this.LabelID.Size = new System.Drawing.Size(88, 13);
-            this.LabelID.TabIndex = 8;
-            this.LabelID.Text = "Card/Student ID:";
+            LabelID.AutoSize = true;
+            LabelID.Location = new System.Drawing.Point(9, 43);
+            LabelID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            LabelID.Name = "LabelID";
+            LabelID.Size = new System.Drawing.Size(88, 13);
+            LabelID.TabIndex = 8;
+            LabelID.Text = "Card/Student ID:";
             // 
             // datePicker
             // 
-            this.datePicker.Location = new System.Drawing.Point(165, 68);
-            this.datePicker.Name = "datePicker";
-            this.datePicker.Size = new System.Drawing.Size(200, 20);
-            this.datePicker.TabIndex = 9;
+            datePicker.Location = new System.Drawing.Point(165, 68);
+            datePicker.Name = "datePicker";
+            datePicker.Size = new System.Drawing.Size(200, 20);
+            datePicker.TabIndex = 9;
             // 
             // DateLabel
             // 
-            this.DateLabel.AutoSize = true;
-            this.DateLabel.Location = new System.Drawing.Point(132, 71);
-            this.DateLabel.Name = "DateLabel";
-            this.DateLabel.Size = new System.Drawing.Size(33, 13);
-            this.DateLabel.TabIndex = 10;
-            this.DateLabel.Text = "Date:";
+            DateLabel.AutoSize = true;
+            DateLabel.Location = new System.Drawing.Point(132, 71);
+            DateLabel.Name = "DateLabel";
+            DateLabel.Size = new System.Drawing.Size(33, 13);
+            DateLabel.TabIndex = 10;
+            DateLabel.Text = "Date:";
             // 
             // FormAddTime
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 169);
-            this.Controls.Add(this.DateLabel);
-            this.Controls.Add(this.datePicker);
-            this.Controls.Add(this.LabelID);
-            this.Controls.Add(this.TextBoxCardID);
-            this.Controls.Add(this.ButtonAdd);
-            this.Controls.Add(this.LabelOut);
-            this.Controls.Add(this.DateTimePickerOut);
-            this.Controls.Add(this.LabelIn);
-            this.Controls.Add(this.LabelTip);
-            this.Controls.Add(this.DateTimePickerIn);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FormAddTime";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "FormAddTime";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(369, 169);
+            Controls.Add(DateLabel);
+            Controls.Add(datePicker);
+            Controls.Add(LabelID);
+            Controls.Add(TextBoxCardID);
+            Controls.Add(ButtonAdd);
+            Controls.Add(LabelOut);
+            Controls.Add(DateTimePickerOut);
+            Controls.Add(LabelIn);
+            Controls.Add(LabelTip);
+            Controls.Add(DateTimePickerIn);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Icon = ((System.Drawing.Icon)(resources.GetObject("$Icon")));
+            Margin = new System.Windows.Forms.Padding(2);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FormAddTime";
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            Text = "FormAddTime";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

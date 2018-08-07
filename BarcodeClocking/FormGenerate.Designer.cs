@@ -49,49 +49,49 @@ namespace BarcodeClocking
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGenerate));
-            this.label1 = new System.Windows.Forms.Label();
-            this.LabelCardID = new System.Windows.Forms.Label();
-            this.TextBoxCardID = new System.Windows.Forms.TextBox();
-            this.ComboBoxMonth = new System.Windows.Forms.ComboBox();
-            this.LabelMonth = new System.Windows.Forms.Label();
-            this.ButtonGenerate = new System.Windows.Forms.Button();
-            this.NumericUpDownYear = new System.Windows.Forms.NumericUpDown();
-            this.LabelYear = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownYear)).BeginInit();
-            this.SuspendLayout();
+            label1 = new System.Windows.Forms.Label();
+            LabelCardID = new System.Windows.Forms.Label();
+            TextBoxCardID = new System.Windows.Forms.TextBox();
+            ComboBoxMonth = new System.Windows.Forms.ComboBox();
+            LabelMonth = new System.Windows.Forms.Label();
+            ButtonGenerate = new System.Windows.Forms.Button();
+            NumericUpDownYear = new System.Windows.Forms.NumericUpDown();
+            LabelYear = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(NumericUpDownYear)).BeginInit();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(358, 40);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Scan your card or type your Student ID and press enter to generate you Time Sheet" +
+            label1.Location = new System.Drawing.Point(12, 9);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(358, 40);
+            label1.TabIndex = 0;
+            label1.Text = "Scan your card or type your Student ID and press enter to generate you Time Sheet" +
     ".";
             // 
             // LabelCardID
             // 
-            this.LabelCardID.AutoSize = true;
-            this.LabelCardID.Location = new System.Drawing.Point(12, 55);
-            this.LabelCardID.Name = "LabelCardID";
-            this.LabelCardID.Size = new System.Drawing.Size(112, 17);
-            this.LabelCardID.TabIndex = 1;
-            this.LabelCardID.Text = "Card/Student ID:";
+            LabelCardID.AutoSize = true;
+            LabelCardID.Location = new System.Drawing.Point(12, 55);
+            LabelCardID.Name = "LabelCardID";
+            LabelCardID.Size = new System.Drawing.Size(112, 17);
+            LabelCardID.TabIndex = 1;
+            LabelCardID.Text = "Card/Student ID:";
             // 
             // TextBoxCardID
             // 
-            this.TextBoxCardID.Location = new System.Drawing.Point(130, 52);
-            this.TextBoxCardID.Name = "TextBoxCardID";
-            this.TextBoxCardID.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxCardID.TabIndex = 1;
-            this.TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
+            TextBoxCardID.Location = new System.Drawing.Point(130, 52);
+            TextBoxCardID.Name = "TextBoxCardID";
+            TextBoxCardID.Size = new System.Drawing.Size(240, 22);
+            TextBoxCardID.TabIndex = 1;
+            TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
             // 
             // ComboBoxMonth
             // 
-            this.ComboBoxMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxMonth.FormattingEnabled = true;
-            this.ComboBoxMonth.ItemHeight = 16;
-            this.ComboBoxMonth.Items.AddRange(new object[] {
+            ComboBoxMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxMonth.FormattingEnabled = true;
+            ComboBoxMonth.ItemHeight = 16;
+            ComboBoxMonth.Items.AddRange(new object[] {
             "January",
             "February",
             "March",
@@ -104,49 +104,49 @@ namespace BarcodeClocking
             "October",
             "November",
             "December"});
-            this.ComboBoxMonth.Location = new System.Drawing.Point(130, 80);
-            this.ComboBoxMonth.MaxDropDownItems = 12;
-            this.ComboBoxMonth.Name = "ComboBoxMonth";
-            this.ComboBoxMonth.Size = new System.Drawing.Size(240, 24);
-            this.ComboBoxMonth.TabIndex = 2;
+            ComboBoxMonth.Location = new System.Drawing.Point(130, 80);
+            ComboBoxMonth.MaxDropDownItems = 12;
+            ComboBoxMonth.Name = "ComboBoxMonth";
+            ComboBoxMonth.Size = new System.Drawing.Size(240, 24);
+            ComboBoxMonth.TabIndex = 2;
             // 
             // LabelMonth
             // 
-            this.LabelMonth.AutoSize = true;
-            this.LabelMonth.Location = new System.Drawing.Point(12, 83);
-            this.LabelMonth.Name = "LabelMonth";
-            this.LabelMonth.Size = new System.Drawing.Size(51, 17);
-            this.LabelMonth.TabIndex = 3;
-            this.LabelMonth.Text = "Month:";
+            LabelMonth.AutoSize = true;
+            LabelMonth.Location = new System.Drawing.Point(12, 83);
+            LabelMonth.Name = "LabelMonth";
+            LabelMonth.Size = new System.Drawing.Size(51, 17);
+            LabelMonth.TabIndex = 3;
+            LabelMonth.Text = "Month:";
             // 
             // ButtonGenerate
             // 
-            this.ButtonGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ButtonGenerate.Location = new System.Drawing.Point(0, 138);
-            this.ButtonGenerate.Name = "ButtonGenerate";
-            this.ButtonGenerate.Size = new System.Drawing.Size(382, 27);
-            this.ButtonGenerate.TabIndex = 4;
-            this.ButtonGenerate.Text = "Generate Time Sheet";
-            this.ButtonGenerate.UseVisualStyleBackColor = true;
-            this.ButtonGenerate.Click += new System.EventHandler(this.ButtonGenerate_Click);
+            ButtonGenerate.Dock = System.Windows.Forms.DockStyle.Bottom;
+            ButtonGenerate.Location = new System.Drawing.Point(0, 138);
+            ButtonGenerate.Name = "ButtonGenerate";
+            ButtonGenerate.Size = new System.Drawing.Size(382, 27);
+            ButtonGenerate.TabIndex = 4;
+            ButtonGenerate.Text = "Generate Time Sheet";
+            ButtonGenerate.UseVisualStyleBackColor = true;
+            ButtonGenerate.Click += new System.EventHandler(ButtonGenerate_Click);
             // 
             // NumericUpDownYear
             // 
-            this.NumericUpDownYear.Location = new System.Drawing.Point(130, 110);
-            this.NumericUpDownYear.Maximum = new decimal(new int[] {
+            NumericUpDownYear.Location = new System.Drawing.Point(130, 110);
+            NumericUpDownYear.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-            this.NumericUpDownYear.Minimum = new decimal(new int[] {
+            NumericUpDownYear.Minimum = new decimal(new int[] {
             2014,
             0,
             0,
             0});
-            this.NumericUpDownYear.Name = "NumericUpDownYear";
-            this.NumericUpDownYear.Size = new System.Drawing.Size(240, 22);
-            this.NumericUpDownYear.TabIndex = 3;
-            this.NumericUpDownYear.Value = new decimal(new int[] {
+            NumericUpDownYear.Name = "NumericUpDownYear";
+            NumericUpDownYear.Size = new System.Drawing.Size(240, 22);
+            NumericUpDownYear.TabIndex = 3;
+            NumericUpDownYear.Value = new decimal(new int[] {
             2014,
             0,
             0,
@@ -154,39 +154,39 @@ namespace BarcodeClocking
             // 
             // LabelYear
             // 
-            this.LabelYear.AutoSize = true;
-            this.LabelYear.Location = new System.Drawing.Point(12, 112);
-            this.LabelYear.Name = "LabelYear";
-            this.LabelYear.Size = new System.Drawing.Size(42, 17);
-            this.LabelYear.TabIndex = 5;
-            this.LabelYear.Text = "Year:";
+            LabelYear.AutoSize = true;
+            LabelYear.Location = new System.Drawing.Point(12, 112);
+            LabelYear.Name = "LabelYear";
+            LabelYear.Size = new System.Drawing.Size(42, 17);
+            LabelYear.TabIndex = 5;
+            LabelYear.Text = "Year:";
             // 
             // FormGenerate
             // 
-            this.AcceptButton = this.ButtonGenerate;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 165);
-            this.Controls.Add(this.LabelYear);
-            this.Controls.Add(this.NumericUpDownYear);
-            this.Controls.Add(this.ButtonGenerate);
-            this.Controls.Add(this.LabelMonth);
-            this.Controls.Add(this.ComboBoxMonth);
-            this.Controls.Add(this.TextBoxCardID);
-            this.Controls.Add(this.LabelCardID);
-            this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 220);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(400, 189);
-            this.Name = "FormGenerate";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Generate Time Sheet";
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownYear)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = ButtonGenerate;
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(382, 165);
+            Controls.Add(LabelYear);
+            Controls.Add(NumericUpDownYear);
+            Controls.Add(ButtonGenerate);
+            Controls.Add(LabelMonth);
+            Controls.Add(ComboBoxMonth);
+            Controls.Add(TextBoxCardID);
+            Controls.Add(LabelCardID);
+            Controls.Add(label1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Icon = ((System.Drawing.Icon)(resources.GetObject("$Icon")));
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(400, 220);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(400, 189);
+            Name = "FormGenerate";
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            Text = "Generate Time Sheet";
+            ((System.ComponentModel.ISupportInitialize)(NumericUpDownYear)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

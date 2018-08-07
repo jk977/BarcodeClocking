@@ -25,14 +25,12 @@ class SQLiteDatabase {
         + " `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
         + " `employeeID` INTEGER NOT NULL, `clockIn` TEXT NOT NULL, `clockOut` TEXT);";
 
-
-
     /// <summary>
     ///     Default Constructor for SQLiteDatabase Class.
     /// </summary>
     public SQLiteDatabase() {
         dbConnection = "Data Source=" + fileName;
-        this.SetDB();
+        SetDB();
     }
 
     /// <summary>
@@ -41,7 +39,7 @@ class SQLiteDatabase {
     /// <param name="inputFile">The File containing the DB</param>
     public SQLiteDatabase(String inputFile) {
         dbConnection = String.Format("Data Source={0}", inputFile);
-        this.SetDB();
+        SetDB();
     }
 
     /// <summary>
@@ -50,9 +48,11 @@ class SQLiteDatabase {
     /// <param name="connectionOpts">A dictionary containing all desired options and their values</param>
     public SQLiteDatabase(Dictionary<String, String> connectionOpts) {
         String str = "";
+
         foreach (KeyValuePair<String, String> row in connectionOpts) {
             str += String.Format("{0}={1}; ", row.Key, row.Value);
         }
+
         str = str.Trim().Substring(0, str.Length - 1);
         dbConnection = str;
     }
@@ -64,18 +64,15 @@ class SQLiteDatabase {
     /// <returns>A DataTable containing the result set.</returns>
     public DataTable GetDataTable(string sql) {
         DataTable dt = new DataTable();
-        try {
-            SQLiteConnection cnn = new SQLiteConnection(dbConnection);
+
+        using (var cnn = new SQLiteConnection(dbConnection)) {
             cnn.Open();
-            SQLiteCommand mycommand = new SQLiteCommand(cnn);
-            mycommand.CommandText = sql;
+            SQLiteCommand mycommand = new SQLiteCommand(cnn) { CommandText = sql };
             SQLiteDataReader reader = mycommand.ExecuteReader();
             dt.Load(reader);
             reader.Close();
-            cnn.Close();
-        } catch (Exception e) {
-            throw new Exception(e.Message);
         }
+
         return dt;
     }
 
@@ -85,12 +82,14 @@ class SQLiteDatabase {
     /// <param name="sql">The SQL to be run.</param>
     /// <returns>An Integer containing the number of rows updated.</returns>
     public int ExecuteNonQuery(string sql) {
-        SQLiteConnection cnn = new SQLiteConnection(dbConnection);
-        cnn.Open();
-        SQLiteCommand mycommand = new SQLiteCommand(cnn);
-        mycommand.CommandText = sql;
-        int rowsUpdated = mycommand.ExecuteNonQuery();
-        cnn.Close();
+        int rowsUpdated = -1;
+
+        using (var cnn = new SQLiteConnection(dbConnection)) {
+            cnn.Open();
+            SQLiteCommand mycommand = new SQLiteCommand(cnn) { CommandText = sql };
+            rowsUpdated = mycommand.ExecuteNonQuery();
+        }
+
         return rowsUpdated;
     }
 
@@ -100,16 +99,18 @@ class SQLiteDatabase {
     /// <param name="sql">The query to run.</param>
     /// <returns>A string.</returns>
     public string ExecuteScalar(string sql) {
-        SQLiteConnection cnn = new SQLiteConnection(dbConnection);
-        cnn.Open();
-        SQLiteCommand mycommand = new SQLiteCommand(cnn);
-        mycommand.CommandText = sql;
-        object value = mycommand.ExecuteScalar();
-        cnn.Close();
-        if (value != null) {
-            return value.ToString();
+        object value = null;
+
+        using (var cnn = new SQLiteConnection(dbConnection)) {
+            cnn.Open();
+            SQLiteCommand mycommand = new SQLiteCommand(cnn);
+            mycommand.CommandText = sql;
+            value = mycommand.ExecuteScalar();
         }
-        return "";
+
+        return value != null ?
+            value.ToString() :
+            "";
     }
 
     /// <summary>
@@ -121,18 +122,22 @@ class SQLiteDatabase {
     /// <returns>A boolean true or false to signify success or failure.</returns>
     public bool Update(String tableName, Dictionary<String, String> data, String where) {
         String vals = "";
-        Boolean returnCode = true;
+        bool returnCode = true;
+
         if (data.Count >= 1) {
             foreach (KeyValuePair<String, String> val in data) {
                 vals += String.Format(" {0} = '{1}',", val.Key.ToString(), val.Value.ToString());
             }
+
             vals = vals.Substring(0, vals.Length - 1);
         }
+
         try {
-            this.ExecuteNonQuery(String.Format("update {0} set {1} where {2};", tableName, vals, where));
+            ExecuteNonQuery(String.Format("update {0} set {1} where {2};", tableName, vals, where));
         } catch {
             returnCode = false;
         }
+
         return returnCode;
     }
 
@@ -143,13 +148,15 @@ class SQLiteDatabase {
     /// <param name="where">The where clause for the delete.</param>
     /// <returns>A boolean true or false to signify success or failure.</returns>
     public bool Delete(String tableName, String where) {
-        Boolean returnCode = true;
+        bool returnCode = true;
+
         try {
-            this.ExecuteNonQuery(String.Format("delete from {0} where {1};", tableName, where));
+            ExecuteNonQuery(String.Format("delete from {0} where {1};", tableName, where));
         } catch (Exception fail) {
             MessageBox.Show(fail.Message);
             returnCode = false;
         }
+
         return returnCode;
     }
 
@@ -162,20 +169,24 @@ class SQLiteDatabase {
     public bool Insert(String tableName, Dictionary<String, String> data) {
         String columns = "";
         String values = "";
-        Boolean returnCode = true;
+        bool success = true;
+
         foreach (KeyValuePair<String, String> val in data) {
             columns += String.Format(" {0},", val.Key.ToString());
             values += String.Format(" '{0}',", val.Value);
         }
+
         columns = columns.Substring(0, columns.Length - 1);
         values = values.Substring(0, values.Length - 1);
+
         try {
-            this.ExecuteNonQuery(String.Format("insert into {0}({1}) values({2});", tableName, columns, values));
+            ExecuteNonQuery(String.Format("insert into {0}({1}) values({2});", tableName, columns, values));
         } catch (Exception fail) {
             MessageBox.Show(fail.Message);
-            returnCode = false;
+            success = false;
         }
-        return returnCode;
+
+        return success;
     }
 
     /// <summary>
@@ -184,15 +195,19 @@ class SQLiteDatabase {
     /// <returns>A boolean true or false to signify success or failure.</returns>
     public bool ClearDB() {
         DataTable tables;
+        bool success = true;
+
         try {
-            tables = this.GetDataTable("select NAME from SQLITE_MASTER where type='table' order by NAME;");
+            tables = GetDataTable("select NAME from SQLITE_MASTER where type='table' order by NAME;");
+
             foreach (DataRow table in tables.Rows) {
-                this.ClearTable(table["NAME"].ToString());
+                ClearTable(table["NAME"].ToString());
             }
-            return true;
         } catch {
-            return false;
+            success = false;
         }
+
+        return success;
     }
 
     /// <summary>
@@ -201,13 +216,15 @@ class SQLiteDatabase {
     /// <param name="table">The name of the table to clear.</param>
     /// <returns>A boolean true or false to signify success or failure.</returns>
     public bool ClearTable(String table) {
-        try {
+        bool success = true;
 
-            this.ExecuteNonQuery(String.Format("delete from {0};", table));
-            return true;
+        try {
+            ExecuteNonQuery(String.Format("delete from {0};", table));
         } catch {
-            return false;
+            success = false;
         }
+
+        return success;
     }
 
     public void SetDB() {
@@ -215,20 +232,14 @@ class SQLiteDatabase {
             try {
                 SQLiteConnection.CreateFile(fileName);
 
-                this.ExecuteNonQuery(avgHoursTable);
-                this.ExecuteNonQuery(employeesTable);
-                this.ExecuteNonQuery(settingsTable);
-                this.ExecuteNonQuery(timeStampsTable);
-
-
+                ExecuteNonQuery(avgHoursTable);
+                ExecuteNonQuery(employeesTable);
+                ExecuteNonQuery(settingsTable);
+                ExecuteNonQuery(timeStampsTable);
             } catch (Exception err) {
                 MessageBox.Show("There was an error while trying to create the database file.\n\n" + err.Message, "Database Creation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
-
-
     }
 }
 

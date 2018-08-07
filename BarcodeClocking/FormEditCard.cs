@@ -175,7 +175,7 @@ namespace BarcodeClocking {
 
             // close
             ButtonSave.Enabled = false;
-            this.Close();
+            Close();
         }
 
         private void FormEditCard_FormClosing(object sender, FormClosingEventArgs e) {

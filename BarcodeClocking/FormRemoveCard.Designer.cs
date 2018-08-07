@@ -49,86 +49,86 @@ namespace BarcodeClocking
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRemoveCard));
-            this.LabelTip = new System.Windows.Forms.Label();
-            this.TextBoxCardID = new System.Windows.Forms.TextBox();
-            this.LabelCardID = new System.Windows.Forms.Label();
-            this.ButtonRemove = new System.Windows.Forms.Button();
-            this.CheckBoxDelTimeLog = new System.Windows.Forms.CheckBox();
-            this.SuspendLayout();
+            LabelTip = new System.Windows.Forms.Label();
+            TextBoxCardID = new System.Windows.Forms.TextBox();
+            LabelCardID = new System.Windows.Forms.Label();
+            ButtonRemove = new System.Windows.Forms.Button();
+            CheckBoxDelTimeLog = new System.Windows.Forms.CheckBox();
+            SuspendLayout();
             // 
             // LabelTip
             // 
-            this.LabelTip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelTip.Location = new System.Drawing.Point(12, 9);
-            this.LabelTip.Name = "LabelTip";
-            this.LabelTip.Size = new System.Drawing.Size(358, 37);
-            this.LabelTip.TabIndex = 7;
-            this.LabelTip.Text = "Scan your card to easily fill in the text box below. Leading and trailing spaces " +
+            LabelTip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LabelTip.Location = new System.Drawing.Point(12, 9);
+            LabelTip.Name = "LabelTip";
+            LabelTip.Size = new System.Drawing.Size(358, 37);
+            LabelTip.TabIndex = 7;
+            LabelTip.Text = "Scan your card to easily fill in the text box below. Leading and trailing spaces " +
     "are removed.";
             // 
             // TextBoxCardID
             // 
-            this.TextBoxCardID.Location = new System.Drawing.Point(130, 49);
-            this.TextBoxCardID.Name = "TextBoxCardID";
-            this.TextBoxCardID.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxCardID.TabIndex = 1;
-            this.TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
+            TextBoxCardID.Location = new System.Drawing.Point(130, 49);
+            TextBoxCardID.Name = "TextBoxCardID";
+            TextBoxCardID.Size = new System.Drawing.Size(240, 22);
+            TextBoxCardID.TabIndex = 1;
+            TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
             // 
             // LabelCardID
             // 
-            this.LabelCardID.AutoSize = true;
-            this.LabelCardID.Location = new System.Drawing.Point(12, 52);
-            this.LabelCardID.Name = "LabelCardID";
-            this.LabelCardID.Size = new System.Drawing.Size(112, 17);
-            this.LabelCardID.TabIndex = 9;
-            this.LabelCardID.Text = "Card/Student ID:";
+            LabelCardID.AutoSize = true;
+            LabelCardID.Location = new System.Drawing.Point(12, 52);
+            LabelCardID.Name = "LabelCardID";
+            LabelCardID.Size = new System.Drawing.Size(112, 17);
+            LabelCardID.TabIndex = 9;
+            LabelCardID.Text = "Card/Student ID:";
             // 
             // ButtonRemove
             // 
-            this.ButtonRemove.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ButtonRemove.Location = new System.Drawing.Point(0, 125);
-            this.ButtonRemove.Name = "ButtonRemove";
-            this.ButtonRemove.Size = new System.Drawing.Size(382, 27);
-            this.ButtonRemove.TabIndex = 2;
-            this.ButtonRemove.Text = "Remove Card";
-            this.ButtonRemove.UseVisualStyleBackColor = true;
-            this.ButtonRemove.Click += new System.EventHandler(this.ButtonRemove_Click);
+            ButtonRemove.Dock = System.Windows.Forms.DockStyle.Bottom;
+            ButtonRemove.Location = new System.Drawing.Point(0, 125);
+            ButtonRemove.Name = "ButtonRemove";
+            ButtonRemove.Size = new System.Drawing.Size(382, 27);
+            ButtonRemove.TabIndex = 2;
+            ButtonRemove.Text = "Remove Card";
+            ButtonRemove.UseVisualStyleBackColor = true;
+            ButtonRemove.Click += new System.EventHandler(ButtonRemove_Click);
             // 
             // CheckBoxDelTimeLog
             // 
-            this.CheckBoxDelTimeLog.AutoSize = true;
-            this.CheckBoxDelTimeLog.Checked = true;
-            this.CheckBoxDelTimeLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxDelTimeLog.Location = new System.Drawing.Point(12, 77);
-            this.CheckBoxDelTimeLog.Name = "CheckBoxDelTimeLog";
-            this.CheckBoxDelTimeLog.Size = new System.Drawing.Size(328, 38);
-            this.CheckBoxDelTimeLog.TabIndex = 10;
-            this.CheckBoxDelTimeLog.Text = "Also delete the respective time log file\r\n(Uncheck if you plan on adding this car" +
+            CheckBoxDelTimeLog.AutoSize = true;
+            CheckBoxDelTimeLog.Checked = true;
+            CheckBoxDelTimeLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxDelTimeLog.Location = new System.Drawing.Point(12, 77);
+            CheckBoxDelTimeLog.Name = "CheckBoxDelTimeLog";
+            CheckBoxDelTimeLog.Size = new System.Drawing.Size(328, 38);
+            CheckBoxDelTimeLog.TabIndex = 10;
+            CheckBoxDelTimeLog.Text = "Also delete the respective time log file\r\n(Uncheck if you plan on adding this car" +
     "d again)";
-            this.CheckBoxDelTimeLog.UseVisualStyleBackColor = true;
+            CheckBoxDelTimeLog.UseVisualStyleBackColor = true;
             // 
             // FormRemoveCard
             // 
-            this.AcceptButton = this.ButtonRemove;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 152);
-            this.Controls.Add(this.CheckBoxDelTimeLog);
-            this.Controls.Add(this.ButtonRemove);
-            this.Controls.Add(this.TextBoxCardID);
-            this.Controls.Add(this.LabelCardID);
-            this.Controls.Add(this.LabelTip);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 197);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(400, 197);
-            this.Name = "FormRemoveCard";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Remove Card";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = ButtonRemove;
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(382, 152);
+            Controls.Add(CheckBoxDelTimeLog);
+            Controls.Add(ButtonRemove);
+            Controls.Add(TextBoxCardID);
+            Controls.Add(LabelCardID);
+            Controls.Add(LabelTip);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Icon = ((System.Drawing.Icon)(resources.GetObject("$Icon")));
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(400, 197);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(400, 197);
+            Name = "FormRemoveCard";
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            Text = "Remove Card";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

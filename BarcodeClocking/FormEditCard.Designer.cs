@@ -49,293 +49,293 @@ namespace BarcodeClocking
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEditCard));
-            this.TextBoxFirstName = new System.Windows.Forms.TextBox();
-            this.LabelFirstName = new System.Windows.Forms.Label();
-            this.LabelLastName = new System.Windows.Forms.Label();
-            this.TextBoxLastName = new System.Windows.Forms.TextBox();
-            this.LabelCardID = new System.Windows.Forms.Label();
-            this.TextBoxCardID = new System.Windows.Forms.TextBox();
-            this.LabelTip = new System.Windows.Forms.Label();
-            this.ButtonSave = new System.Windows.Forms.Button();
-            this.LabelSeparator = new System.Windows.Forms.Label();
-            this.LabelMI = new System.Windows.Forms.Label();
-            this.LabelHrRate = new System.Windows.Forms.Label();
-            this.TextBoxMI = new System.Windows.Forms.TextBox();
-            this.NumericUpDownHrRate = new System.Windows.Forms.NumericUpDown();
-            this.LabelPosType = new System.Windows.Forms.Label();
-            this.RadioButtonFWS = new System.Windows.Forms.RadioButton();
-            this.RadioButtonSWS = new System.Windows.Forms.RadioButton();
-            this.RadioButtonMST = new System.Windows.Forms.RadioButton();
-            this.RadioButtonHED = new System.Windows.Forms.RadioButton();
-            this.RadioButtonHelp = new System.Windows.Forms.RadioButton();
-            this.RadioButtonTutor1 = new System.Windows.Forms.RadioButton();
-            this.RadioButtonTutor2 = new System.Windows.Forms.RadioButton();
-            this.RadioButtonTANF = new System.Windows.Forms.RadioButton();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHrRate)).BeginInit();
-            this.SuspendLayout();
+            TextBoxFirstName = new System.Windows.Forms.TextBox();
+            LabelFirstName = new System.Windows.Forms.Label();
+            LabelLastName = new System.Windows.Forms.Label();
+            TextBoxLastName = new System.Windows.Forms.TextBox();
+            LabelCardID = new System.Windows.Forms.Label();
+            TextBoxCardID = new System.Windows.Forms.TextBox();
+            LabelTip = new System.Windows.Forms.Label();
+            ButtonSave = new System.Windows.Forms.Button();
+            LabelSeparator = new System.Windows.Forms.Label();
+            LabelMI = new System.Windows.Forms.Label();
+            LabelHrRate = new System.Windows.Forms.Label();
+            TextBoxMI = new System.Windows.Forms.TextBox();
+            NumericUpDownHrRate = new System.Windows.Forms.NumericUpDown();
+            LabelPosType = new System.Windows.Forms.Label();
+            RadioButtonFWS = new System.Windows.Forms.RadioButton();
+            RadioButtonSWS = new System.Windows.Forms.RadioButton();
+            RadioButtonMST = new System.Windows.Forms.RadioButton();
+            RadioButtonHED = new System.Windows.Forms.RadioButton();
+            RadioButtonHelp = new System.Windows.Forms.RadioButton();
+            RadioButtonTutor1 = new System.Windows.Forms.RadioButton();
+            RadioButtonTutor2 = new System.Windows.Forms.RadioButton();
+            RadioButtonTANF = new System.Windows.Forms.RadioButton();
+            ((System.ComponentModel.ISupportInitialize)(NumericUpDownHrRate)).BeginInit();
+            SuspendLayout();
             // 
             // TextBoxFirstName
             // 
-            this.TextBoxFirstName.Enabled = false;
-            this.TextBoxFirstName.Location = new System.Drawing.Point(130, 81);
-            this.TextBoxFirstName.Name = "TextBoxFirstName";
-            this.TextBoxFirstName.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxFirstName.TabIndex = 2;
+            TextBoxFirstName.Enabled = false;
+            TextBoxFirstName.Location = new System.Drawing.Point(130, 81);
+            TextBoxFirstName.Name = "TextBoxFirstName";
+            TextBoxFirstName.Size = new System.Drawing.Size(240, 22);
+            TextBoxFirstName.TabIndex = 2;
             // 
             // LabelFirstName
             // 
-            this.LabelFirstName.AutoSize = true;
-            this.LabelFirstName.Location = new System.Drawing.Point(12, 84);
-            this.LabelFirstName.Name = "LabelFirstName";
-            this.LabelFirstName.Size = new System.Drawing.Size(80, 17);
-            this.LabelFirstName.TabIndex = 1;
-            this.LabelFirstName.Text = "First Name:";
+            LabelFirstName.AutoSize = true;
+            LabelFirstName.Location = new System.Drawing.Point(12, 84);
+            LabelFirstName.Name = "LabelFirstName";
+            LabelFirstName.Size = new System.Drawing.Size(80, 17);
+            LabelFirstName.TabIndex = 1;
+            LabelFirstName.Text = "First Name:";
             // 
             // LabelLastName
             // 
-            this.LabelLastName.AutoSize = true;
-            this.LabelLastName.Location = new System.Drawing.Point(12, 170);
-            this.LabelLastName.Name = "LabelLastName";
-            this.LabelLastName.Size = new System.Drawing.Size(80, 17);
-            this.LabelLastName.TabIndex = 2;
-            this.LabelLastName.Text = "Last Name:";
+            LabelLastName.AutoSize = true;
+            LabelLastName.Location = new System.Drawing.Point(12, 170);
+            LabelLastName.Name = "LabelLastName";
+            LabelLastName.Size = new System.Drawing.Size(80, 17);
+            LabelLastName.TabIndex = 2;
+            LabelLastName.Text = "Last Name:";
             // 
             // TextBoxLastName
             // 
-            this.TextBoxLastName.Enabled = false;
-            this.TextBoxLastName.Location = new System.Drawing.Point(130, 167);
-            this.TextBoxLastName.Name = "TextBoxLastName";
-            this.TextBoxLastName.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxLastName.TabIndex = 3;
+            TextBoxLastName.Enabled = false;
+            TextBoxLastName.Location = new System.Drawing.Point(130, 167);
+            TextBoxLastName.Name = "TextBoxLastName";
+            TextBoxLastName.Size = new System.Drawing.Size(240, 22);
+            TextBoxLastName.TabIndex = 3;
             // 
             // LabelCardID
             // 
-            this.LabelCardID.AutoSize = true;
-            this.LabelCardID.Location = new System.Drawing.Point(12, 56);
-            this.LabelCardID.Name = "LabelCardID";
-            this.LabelCardID.Size = new System.Drawing.Size(112, 17);
-            this.LabelCardID.TabIndex = 4;
-            this.LabelCardID.Text = "Card/Student ID:";
+            LabelCardID.AutoSize = true;
+            LabelCardID.Location = new System.Drawing.Point(12, 56);
+            LabelCardID.Name = "LabelCardID";
+            LabelCardID.Size = new System.Drawing.Size(112, 17);
+            LabelCardID.TabIndex = 4;
+            LabelCardID.Text = "Card/Student ID:";
             // 
             // TextBoxCardID
             // 
-            this.TextBoxCardID.Location = new System.Drawing.Point(130, 53);
-            this.TextBoxCardID.Name = "TextBoxCardID";
-            this.TextBoxCardID.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxCardID.TabIndex = 1;
-            this.TextBoxCardID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxCardID_KeyDown);
-            this.TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
+            TextBoxCardID.Location = new System.Drawing.Point(130, 53);
+            TextBoxCardID.Name = "TextBoxCardID";
+            TextBoxCardID.Size = new System.Drawing.Size(240, 22);
+            TextBoxCardID.TabIndex = 1;
+            TextBoxCardID.KeyDown += new System.Windows.Forms.KeyEventHandler(TextBoxCardID_KeyDown);
+            TextBoxCardID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(Helper.OnKeyPress);
             // 
             // LabelTip
             // 
-            this.LabelTip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelTip.Location = new System.Drawing.Point(13, 13);
-            this.LabelTip.Name = "LabelTip";
-            this.LabelTip.Size = new System.Drawing.Size(357, 37);
-            this.LabelTip.TabIndex = 6;
-            this.LabelTip.Text = "Scan your card to retrieve your info. Leading and trailing spaces are removed.";
+            LabelTip.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            LabelTip.Location = new System.Drawing.Point(13, 13);
+            LabelTip.Name = "LabelTip";
+            LabelTip.Size = new System.Drawing.Size(357, 37);
+            LabelTip.TabIndex = 6;
+            LabelTip.Text = "Scan your card to retrieve your info. Leading and trailing spaces are removed.";
             // 
             // ButtonSave
             // 
-            this.ButtonSave.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ButtonSave.Enabled = false;
-            this.ButtonSave.Location = new System.Drawing.Point(0, 360);
-            this.ButtonSave.Name = "ButtonSave";
-            this.ButtonSave.Size = new System.Drawing.Size(382, 27);
-            this.ButtonSave.TabIndex = 14;
-            this.ButtonSave.Text = "Save Card Edits";
-            this.ButtonSave.UseVisualStyleBackColor = true;
-            this.ButtonSave.Click += new System.EventHandler(this.ButtonSave_Click);
+            ButtonSave.Dock = System.Windows.Forms.DockStyle.Bottom;
+            ButtonSave.Enabled = false;
+            ButtonSave.Location = new System.Drawing.Point(0, 360);
+            ButtonSave.Name = "ButtonSave";
+            ButtonSave.Size = new System.Drawing.Size(382, 27);
+            ButtonSave.TabIndex = 14;
+            ButtonSave.Text = "Save Card Edits";
+            ButtonSave.UseVisualStyleBackColor = true;
+            ButtonSave.Click += new System.EventHandler(ButtonSave_Click);
             // 
             // LabelSeparator
             // 
-            this.LabelSeparator.Location = new System.Drawing.Point(12, 127);
-            this.LabelSeparator.Name = "LabelSeparator";
-            this.LabelSeparator.Size = new System.Drawing.Size(358, 37);
-            this.LabelSeparator.TabIndex = 7;
-            this.LabelSeparator.Text = "Optional Info\r\n(used to fill out respective fields in time sheet)";
-            this.LabelSeparator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            LabelSeparator.Location = new System.Drawing.Point(12, 127);
+            LabelSeparator.Name = "LabelSeparator";
+            LabelSeparator.Size = new System.Drawing.Size(358, 37);
+            LabelSeparator.TabIndex = 7;
+            LabelSeparator.Text = "Optional Info\r\n(used to fill out respective fields in time sheet)";
+            LabelSeparator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // LabelMI
             // 
-            this.LabelMI.AutoSize = true;
-            this.LabelMI.Location = new System.Drawing.Point(12, 198);
-            this.LabelMI.Name = "LabelMI";
-            this.LabelMI.Size = new System.Drawing.Size(89, 17);
-            this.LabelMI.TabIndex = 8;
-            this.LabelMI.Text = "Middle Initial:";
+            LabelMI.AutoSize = true;
+            LabelMI.Location = new System.Drawing.Point(12, 198);
+            LabelMI.Name = "LabelMI";
+            LabelMI.Size = new System.Drawing.Size(89, 17);
+            LabelMI.TabIndex = 8;
+            LabelMI.Text = "Middle Initial:";
             // 
             // LabelHrRate
             // 
-            this.LabelHrRate.AutoSize = true;
-            this.LabelHrRate.Location = new System.Drawing.Point(12, 225);
-            this.LabelHrRate.Name = "LabelHrRate";
-            this.LabelHrRate.Size = new System.Drawing.Size(87, 17);
-            this.LabelHrRate.TabIndex = 9;
-            this.LabelHrRate.Text = "Hourly Rate:";
+            LabelHrRate.AutoSize = true;
+            LabelHrRate.Location = new System.Drawing.Point(12, 225);
+            LabelHrRate.Name = "LabelHrRate";
+            LabelHrRate.Size = new System.Drawing.Size(87, 17);
+            LabelHrRate.TabIndex = 9;
+            LabelHrRate.Text = "Hourly Rate:";
             // 
             // TextBoxMI
             // 
-            this.TextBoxMI.Enabled = false;
-            this.TextBoxMI.Location = new System.Drawing.Point(130, 195);
-            this.TextBoxMI.Name = "TextBoxMI";
-            this.TextBoxMI.Size = new System.Drawing.Size(240, 22);
-            this.TextBoxMI.TabIndex = 4;
+            TextBoxMI.Enabled = false;
+            TextBoxMI.Location = new System.Drawing.Point(130, 195);
+            TextBoxMI.Name = "TextBoxMI";
+            TextBoxMI.Size = new System.Drawing.Size(240, 22);
+            TextBoxMI.TabIndex = 4;
             // 
             // NumericUpDownHrRate
             // 
-            this.NumericUpDownHrRate.DecimalPlaces = 2;
-            this.NumericUpDownHrRate.Enabled = false;
-            this.NumericUpDownHrRate.Location = new System.Drawing.Point(130, 223);
-            this.NumericUpDownHrRate.Name = "NumericUpDownHrRate";
-            this.NumericUpDownHrRate.Size = new System.Drawing.Size(240, 22);
-            this.NumericUpDownHrRate.TabIndex = 5;
+            NumericUpDownHrRate.DecimalPlaces = 2;
+            NumericUpDownHrRate.Enabled = false;
+            NumericUpDownHrRate.Location = new System.Drawing.Point(130, 223);
+            NumericUpDownHrRate.Name = "NumericUpDownHrRate";
+            NumericUpDownHrRate.Size = new System.Drawing.Size(240, 22);
+            NumericUpDownHrRate.TabIndex = 5;
             // 
             // LabelPosType
             // 
-            this.LabelPosType.AutoSize = true;
-            this.LabelPosType.Location = new System.Drawing.Point(12, 253);
-            this.LabelPosType.Name = "LabelPosType";
-            this.LabelPosType.Size = new System.Drawing.Size(98, 17);
-            this.LabelPosType.TabIndex = 13;
-            this.LabelPosType.Text = "Position Type:";
+            LabelPosType.AutoSize = true;
+            LabelPosType.Location = new System.Drawing.Point(12, 253);
+            LabelPosType.Name = "LabelPosType";
+            LabelPosType.Size = new System.Drawing.Size(98, 17);
+            LabelPosType.TabIndex = 13;
+            LabelPosType.Text = "Position Type:";
             // 
             // RadioButtonFWS
             // 
-            this.RadioButtonFWS.AutoSize = true;
-            this.RadioButtonFWS.Enabled = false;
-            this.RadioButtonFWS.Location = new System.Drawing.Point(130, 251);
-            this.RadioButtonFWS.Name = "RadioButtonFWS";
-            this.RadioButtonFWS.Size = new System.Drawing.Size(59, 21);
-            this.RadioButtonFWS.TabIndex = 6;
-            this.RadioButtonFWS.TabStop = true;
-            this.RadioButtonFWS.Text = "FWS";
-            this.RadioButtonFWS.UseVisualStyleBackColor = true;
+            RadioButtonFWS.AutoSize = true;
+            RadioButtonFWS.Enabled = false;
+            RadioButtonFWS.Location = new System.Drawing.Point(130, 251);
+            RadioButtonFWS.Name = "RadioButtonFWS";
+            RadioButtonFWS.Size = new System.Drawing.Size(59, 21);
+            RadioButtonFWS.TabIndex = 6;
+            RadioButtonFWS.TabStop = true;
+            RadioButtonFWS.Text = "FWS";
+            RadioButtonFWS.UseVisualStyleBackColor = true;
             // 
             // RadioButtonSWS
             // 
-            this.RadioButtonSWS.AutoSize = true;
-            this.RadioButtonSWS.Enabled = false;
-            this.RadioButtonSWS.Location = new System.Drawing.Point(195, 251);
-            this.RadioButtonSWS.Name = "RadioButtonSWS";
-            this.RadioButtonSWS.Size = new System.Drawing.Size(60, 21);
-            this.RadioButtonSWS.TabIndex = 7;
-            this.RadioButtonSWS.TabStop = true;
-            this.RadioButtonSWS.Text = "SWS";
-            this.RadioButtonSWS.UseVisualStyleBackColor = true;
+            RadioButtonSWS.AutoSize = true;
+            RadioButtonSWS.Enabled = false;
+            RadioButtonSWS.Location = new System.Drawing.Point(195, 251);
+            RadioButtonSWS.Name = "RadioButtonSWS";
+            RadioButtonSWS.Size = new System.Drawing.Size(60, 21);
+            RadioButtonSWS.TabIndex = 7;
+            RadioButtonSWS.TabStop = true;
+            RadioButtonSWS.Text = "SWS";
+            RadioButtonSWS.UseVisualStyleBackColor = true;
             // 
             // RadioButtonMST
             // 
-            this.RadioButtonMST.AutoSize = true;
-            this.RadioButtonMST.Enabled = false;
-            this.RadioButtonMST.Location = new System.Drawing.Point(261, 251);
-            this.RadioButtonMST.Name = "RadioButtonMST";
-            this.RadioButtonMST.Size = new System.Drawing.Size(93, 21);
-            this.RadioButtonMST.TabIndex = 8;
-            this.RadioButtonMST.TabStop = true;
-            this.RadioButtonMST.Text = "SWS MST";
-            this.RadioButtonMST.UseVisualStyleBackColor = true;
+            RadioButtonMST.AutoSize = true;
+            RadioButtonMST.Enabled = false;
+            RadioButtonMST.Location = new System.Drawing.Point(261, 251);
+            RadioButtonMST.Name = "RadioButtonMST";
+            RadioButtonMST.Size = new System.Drawing.Size(93, 21);
+            RadioButtonMST.TabIndex = 8;
+            RadioButtonMST.TabStop = true;
+            RadioButtonMST.Text = "SWS MST";
+            RadioButtonMST.UseVisualStyleBackColor = true;
             // 
             // RadioButtonHED
             // 
-            this.RadioButtonHED.AutoSize = true;
-            this.RadioButtonHED.Enabled = false;
-            this.RadioButtonHED.Location = new System.Drawing.Point(130, 278);
-            this.RadioButtonHED.Name = "RadioButtonHED";
-            this.RadioButtonHED.Size = new System.Drawing.Size(93, 21);
-            this.RadioButtonHED.TabIndex = 9;
-            this.RadioButtonHED.TabStop = true;
-            this.RadioButtonHED.Text = "SWS HED";
-            this.RadioButtonHED.UseVisualStyleBackColor = true;
+            RadioButtonHED.AutoSize = true;
+            RadioButtonHED.Enabled = false;
+            RadioButtonHED.Location = new System.Drawing.Point(130, 278);
+            RadioButtonHED.Name = "RadioButtonHED";
+            RadioButtonHED.Size = new System.Drawing.Size(93, 21);
+            RadioButtonHED.TabIndex = 9;
+            RadioButtonHED.TabStop = true;
+            RadioButtonHED.Text = "SWS HED";
+            RadioButtonHED.UseVisualStyleBackColor = true;
             // 
             // RadioButtonHelp
             // 
-            this.RadioButtonHelp.AutoSize = true;
-            this.RadioButtonHelp.Enabled = false;
-            this.RadioButtonHelp.Location = new System.Drawing.Point(261, 278);
-            this.RadioButtonHelp.Name = "RadioButtonHelp";
-            this.RadioButtonHelp.Size = new System.Drawing.Size(111, 21);
-            this.RadioButtonHelp.TabIndex = 10;
-            this.RadioButtonHelp.TabStop = true;
-            this.RadioButtonHelp.Text = "Student Help";
-            this.RadioButtonHelp.UseVisualStyleBackColor = true;
+            RadioButtonHelp.AutoSize = true;
+            RadioButtonHelp.Enabled = false;
+            RadioButtonHelp.Location = new System.Drawing.Point(261, 278);
+            RadioButtonHelp.Name = "RadioButtonHelp";
+            RadioButtonHelp.Size = new System.Drawing.Size(111, 21);
+            RadioButtonHelp.TabIndex = 10;
+            RadioButtonHelp.TabStop = true;
+            RadioButtonHelp.Text = "Student Help";
+            RadioButtonHelp.UseVisualStyleBackColor = true;
             // 
             // RadioButtonTutor1
             // 
-            this.RadioButtonTutor1.AutoSize = true;
-            this.RadioButtonTutor1.Enabled = false;
-            this.RadioButtonTutor1.Location = new System.Drawing.Point(130, 305);
-            this.RadioButtonTutor1.Name = "RadioButtonTutor1";
-            this.RadioButtonTutor1.Size = new System.Drawing.Size(75, 21);
-            this.RadioButtonTutor1.TabIndex = 11;
-            this.RadioButtonTutor1.TabStop = true;
-            this.RadioButtonTutor1.Text = "Tutor 1";
-            this.RadioButtonTutor1.UseVisualStyleBackColor = true;
+            RadioButtonTutor1.AutoSize = true;
+            RadioButtonTutor1.Enabled = false;
+            RadioButtonTutor1.Location = new System.Drawing.Point(130, 305);
+            RadioButtonTutor1.Name = "RadioButtonTutor1";
+            RadioButtonTutor1.Size = new System.Drawing.Size(75, 21);
+            RadioButtonTutor1.TabIndex = 11;
+            RadioButtonTutor1.TabStop = true;
+            RadioButtonTutor1.Text = "Tutor 1";
+            RadioButtonTutor1.UseVisualStyleBackColor = true;
             // 
             // RadioButtonTutor2
             // 
-            this.RadioButtonTutor2.AutoSize = true;
-            this.RadioButtonTutor2.Enabled = false;
-            this.RadioButtonTutor2.Location = new System.Drawing.Point(261, 305);
-            this.RadioButtonTutor2.Name = "RadioButtonTutor2";
-            this.RadioButtonTutor2.Size = new System.Drawing.Size(75, 21);
-            this.RadioButtonTutor2.TabIndex = 12;
-            this.RadioButtonTutor2.TabStop = true;
-            this.RadioButtonTutor2.Text = "Tutor 2";
-            this.RadioButtonTutor2.UseVisualStyleBackColor = true;
+            RadioButtonTutor2.AutoSize = true;
+            RadioButtonTutor2.Enabled = false;
+            RadioButtonTutor2.Location = new System.Drawing.Point(261, 305);
+            RadioButtonTutor2.Name = "RadioButtonTutor2";
+            RadioButtonTutor2.Size = new System.Drawing.Size(75, 21);
+            RadioButtonTutor2.TabIndex = 12;
+            RadioButtonTutor2.TabStop = true;
+            RadioButtonTutor2.Text = "Tutor 2";
+            RadioButtonTutor2.UseVisualStyleBackColor = true;
             // 
             // RadioButtonTANF
             // 
-            this.RadioButtonTANF.AutoSize = true;
-            this.RadioButtonTANF.Enabled = false;
-            this.RadioButtonTANF.Location = new System.Drawing.Point(130, 332);
-            this.RadioButtonTANF.Name = "RadioButtonTANF";
-            this.RadioButtonTANF.Size = new System.Drawing.Size(118, 21);
-            this.RadioButtonTANF.TabIndex = 13;
-            this.RadioButtonTANF.TabStop = true;
-            this.RadioButtonTANF.Text = "TANF Student";
-            this.RadioButtonTANF.UseVisualStyleBackColor = true;
+            RadioButtonTANF.AutoSize = true;
+            RadioButtonTANF.Enabled = false;
+            RadioButtonTANF.Location = new System.Drawing.Point(130, 332);
+            RadioButtonTANF.Name = "RadioButtonTANF";
+            RadioButtonTANF.Size = new System.Drawing.Size(118, 21);
+            RadioButtonTANF.TabIndex = 13;
+            RadioButtonTANF.TabStop = true;
+            RadioButtonTANF.Text = "TANF Student";
+            RadioButtonTANF.UseVisualStyleBackColor = true;
             // 
             // FormEditCard
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 387);
-            this.Controls.Add(this.RadioButtonTANF);
-            this.Controls.Add(this.RadioButtonTutor2);
-            this.Controls.Add(this.RadioButtonTutor1);
-            this.Controls.Add(this.RadioButtonHelp);
-            this.Controls.Add(this.RadioButtonHED);
-            this.Controls.Add(this.RadioButtonMST);
-            this.Controls.Add(this.RadioButtonSWS);
-            this.Controls.Add(this.RadioButtonFWS);
-            this.Controls.Add(this.LabelPosType);
-            this.Controls.Add(this.NumericUpDownHrRate);
-            this.Controls.Add(this.TextBoxMI);
-            this.Controls.Add(this.LabelHrRate);
-            this.Controls.Add(this.LabelMI);
-            this.Controls.Add(this.LabelSeparator);
-            this.Controls.Add(this.ButtonSave);
-            this.Controls.Add(this.LabelTip);
-            this.Controls.Add(this.TextBoxCardID);
-            this.Controls.Add(this.LabelCardID);
-            this.Controls.Add(this.TextBoxLastName);
-            this.Controls.Add(this.LabelLastName);
-            this.Controls.Add(this.LabelFirstName);
-            this.Controls.Add(this.TextBoxFirstName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(400, 432);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(400, 432);
-            this.Name = "FormEditCard";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Edit Card";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditCard_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDownHrRate)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(382, 387);
+            Controls.Add(RadioButtonTANF);
+            Controls.Add(RadioButtonTutor2);
+            Controls.Add(RadioButtonTutor1);
+            Controls.Add(RadioButtonHelp);
+            Controls.Add(RadioButtonHED);
+            Controls.Add(RadioButtonMST);
+            Controls.Add(RadioButtonSWS);
+            Controls.Add(RadioButtonFWS);
+            Controls.Add(LabelPosType);
+            Controls.Add(NumericUpDownHrRate);
+            Controls.Add(TextBoxMI);
+            Controls.Add(LabelHrRate);
+            Controls.Add(LabelMI);
+            Controls.Add(LabelSeparator);
+            Controls.Add(ButtonSave);
+            Controls.Add(LabelTip);
+            Controls.Add(TextBoxCardID);
+            Controls.Add(LabelCardID);
+            Controls.Add(TextBoxLastName);
+            Controls.Add(LabelLastName);
+            Controls.Add(LabelFirstName);
+            Controls.Add(TextBoxFirstName);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Icon = ((System.Drawing.Icon)(resources.GetObject("$Icon")));
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(400, 432);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(400, 432);
+            Name = "FormEditCard";
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            Text = "Edit Card";
+            FormClosing += new System.Windows.Forms.FormClosingEventHandler(FormEditCard_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(NumericUpDownHrRate)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

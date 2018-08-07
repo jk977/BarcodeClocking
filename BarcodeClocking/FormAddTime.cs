@@ -69,8 +69,8 @@ namespace BarcodeClocking {
         }
 
         private void DateTimePickerIn_ValueChanged(Object sender, EventArgs e) {
-            this.DateTimePickerIn.Value = this.datePicker.Value.Date + this.DateTimePickerIn.Value.TimeOfDay;
-            if (this.DateTimePickerIn.Value.TimeOfDay.Hours > this.DateTimePickerOut.Value.TimeOfDay.Hours)
+            DateTimePickerIn.Value = datePicker.Value.Date + DateTimePickerIn.Value.TimeOfDay;
+            if (DateTimePickerIn.Value.TimeOfDay.Hours > DateTimePickerOut.Value.TimeOfDay.Hours)
                 DateTimePickerOut.Value = DateTimePickerIn.Value;
             DateTimePickerOut.MaxDate = DateTimePickerIn.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
             DateTimePickerOut.MinDate = DateTimePickerIn.Value;
@@ -111,8 +111,8 @@ namespace BarcodeClocking {
             }
 
             try {
-                DateTimePickerIn.Value = this.datePicker.Value.Date + this.DateTimePickerIn.Value.TimeOfDay;
-                DateTimePickerOut.Value = this.datePicker.Value.Date + this.DateTimePickerOut.Value.TimeOfDay;
+                DateTimePickerIn.Value = datePicker.Value.Date + DateTimePickerIn.Value.TimeOfDay;
+                DateTimePickerOut.Value = datePicker.Value.Date + DateTimePickerOut.Value.TimeOfDay;
 
                 Dictionary<String, String> data = new Dictionary<String, String>();
                 data.Add("employeeID", TextBoxCardID.Text.Trim());
@@ -126,7 +126,7 @@ namespace BarcodeClocking {
             }
 
             // close form
-            this.Close();
+            Close();
         }
 
     }

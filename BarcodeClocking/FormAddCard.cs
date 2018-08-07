@@ -25,19 +25,16 @@ using System.Collections.Generic;
 
 namespace BarcodeClocking {
     public partial class FormAddCard : Form {
-        // vars
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
 
         public FormAddCard() {
             InitializeComponent();
-
-            // get list of invalid chars for system
             invalidChars = Path.GetInvalidFileNameChars();
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e) {
-            // vars
+            // TODO simplify validation by checking if the input is a number
             bool containsInvalidChar = false;
             string finalCardID = TextBoxCardID.Text.Trim();
             string posType = "";
@@ -52,40 +49,42 @@ namespace BarcodeClocking {
 
             // if there was an invalid char, notify user of ID used in app
             if (containsInvalidChar) {
-                if (MessageBox.Show(this, "Your card ID format contains invalid characters for use in this program. In the future, when your card is scanned, it will be seen as " + finalCardID + " instead of " + TextBoxCardID.Text + ".", "Card ID Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.Cancel)
+                if (MessageBox.Show(this, "Your card ID format contains invalid characters for use in this program. In the future, when your card is scanned, it will be seen as " + finalCardID + " instead of " + TextBoxCardID.Text + ".", "Card ID Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk) == DialogResult.Cancel) {
                     return;
+                }
             }
 
             // check for blank first name
             if (TextBoxFirstName.Text.Length == 0) {
-                if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
                     TextBoxFirstName.Text = finalCardID;
+                }
             }
 
             // set position type if applicable
-            if (RadioButtonFWS.Checked)
+            if (RadioButtonFWS.Checked) {
                 posType = "FWS";
-            else if (RadioButtonSWS.Checked)
+            } else if (RadioButtonSWS.Checked) {
                 posType = "SWS";
-            else if (RadioButtonMST.Checked)
+            } else if (RadioButtonMST.Checked) {
                 posType = "MST";
-            else if (RadioButtonHED.Checked)
+            } else if (RadioButtonHED.Checked) {
                 posType = "HED";
-            else if (RadioButtonHelp.Checked)
+            } else if (RadioButtonHelp.Checked) {
                 posType = "Help";
-            else if (RadioButtonTutor1.Checked)
+            } else if (RadioButtonTutor1.Checked) {
                 posType = "Tutor1";
-            else if (RadioButtonTutor2.Checked)
+            } else if (RadioButtonTutor2.Checked) {
                 posType = "Tutor2";
-            else if (RadioButtonTANF.Checked)
+            } else if (RadioButtonTANF.Checked) {
                 posType = "TANF";
+            }
 
             // verify card ID doesn't already exist
             if (sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";").Rows.Count > 0) {
                 MessageBox.Show(this, "The Card ID you entered already exists! Please make sure it was entered correctly.", "Duplicate Card ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
 
             try {
                 Dictionary<String, String> data = new Dictionary<String, String>();
@@ -102,7 +101,7 @@ namespace BarcodeClocking {
                 MessageBox.Show("Something went horribly wrong while trying to save your profile!\n" + error.Message);
             }
 
-            this.Close();
+            Close();
         }
 
         private void TextBoxCardID_KeyDown(object sender, KeyEventArgs e) {
