@@ -55,19 +55,20 @@ namespace BarcodeClocking {
                     // write to file
                     try {
                         sql.Delete("employees", String.Format("employeeID = {0}", dt.Rows[0].ItemArray[0].ToString()));
-                        if (CheckBoxDelTimeLog.Checked == true)
-                            sql.Delete("timeStamps", String.Format("employeeID = {0}", dt.Rows[0].ItemArray[0].ToString()));
 
+                        if (CheckBoxDelTimeLog.Checked == true) {
+                            sql.Delete("timeStamps", String.Format("employeeID = {0}", dt.Rows[0].ItemArray[0].ToString()));
+                        }
                     } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to remove the card.\n\n" + err.Message, "File Deletion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
                 }
             }
 
             // notify user if card wasn't found
-            if (!found)
+            if (!found) {
                 MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             // reset text box
             TextBoxCardID.Clear();

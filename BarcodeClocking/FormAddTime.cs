@@ -70,8 +70,11 @@ namespace BarcodeClocking {
 
         private void DateTimePickerIn_ValueChanged(Object sender, EventArgs e) {
             DateTimePickerIn.Value = datePicker.Value.Date + DateTimePickerIn.Value.TimeOfDay;
-            if (DateTimePickerIn.Value.TimeOfDay.Hours > DateTimePickerOut.Value.TimeOfDay.Hours)
+
+            if (DateTimePickerIn.Value.TimeOfDay.Hours > DateTimePickerOut.Value.TimeOfDay.Hours) {
                 DateTimePickerOut.Value = DateTimePickerIn.Value;
+            }
+
             DateTimePickerOut.MaxDate = DateTimePickerIn.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
             DateTimePickerOut.MinDate = DateTimePickerIn.Value;
         }

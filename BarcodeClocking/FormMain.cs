@@ -238,76 +238,93 @@ namespace BarcodeClocking {
             string loggedTime = "";
 
             // figure out what to display
-            if (diff.Days > 0)
+            if (diff.Days > 0) {
                 days = true;
-            if (diff.Hours > 0)
+            }
+
+            if (diff.Hours > 0) {
                 hours = true;
-            if (diff.Minutes > 0)
+            }
+
+            if (diff.Minutes > 0) {
                 minutes = true;
-            if (diff.Seconds > 0)
+            }
+
+            if (diff.Seconds > 0) {
                 seconds = true;
+            }
 
             // create logged time text
             if (days) {
                 // add days value
-                if (diff.Days > 1)
+                if (diff.Days > 1) {
                     loggedTime = diff.Days.ToString() + " days";
-                // add day
-                else
+                } else {
                     loggedTime = diff.Days.ToString() + " day";
+                }
 
                 // add comma if there's another value
-                if (hours || minutes || seconds)
+                if (hours || minutes || seconds) {
                     loggedTime = loggedTime + ", ";
+                }
             }
+
             if (hours) {
                 // add "and" if there were days, and no minutes or seconds
-                if (days && !(minutes || seconds))
+                if (days && !(minutes || seconds)) {
                     loggedTime = loggedTime + "and ";
+                }
 
                 // add hours value
-                if (diff.Hours > 1)
+                if (diff.Hours > 1) {
                     loggedTime = loggedTime + diff.Hours.ToString() + " hours";
-                // add hour
-                else
+                } else {
                     loggedTime = loggedTime + diff.Hours.ToString() + " hour";
+                }
 
                 // add comma if there's another value
-                if (minutes || seconds)
+                if (minutes || seconds) {
                     loggedTime = loggedTime + ", ";
+                }
             }
+
             if (minutes) {
                 // add "and" if there were days or hours, and no seconds
-                if ((days || hours) && !seconds)
+                if ((days || hours) && !seconds) {
                     loggedTime = loggedTime + "and ";
+                }
 
                 // add minutes value
-                if (diff.Minutes > 1)
+                if (diff.Minutes > 1) {
                     loggedTime = loggedTime + diff.Minutes.ToString() + " minutes";
-                // add minute
-                else
+                } else {
                     loggedTime = loggedTime + diff.Minutes.ToString() + " minute";
+                }
 
                 // add comma if there's a seconds value
-                if (seconds)
+                if (seconds) {
                     loggedTime = loggedTime + ", ";
+                }
             }
+
             if (seconds) {
                 // add "and" if there was a previous value
-                if (days || hours || minutes)
+                if (days || hours || minutes) {
                     loggedTime = loggedTime + "and ";
+                }
 
                 // add seconds value
-                if (diff.Seconds > 1)
+                if (diff.Seconds > 1) {
                     loggedTime = loggedTime + diff.Seconds.ToString() + " seconds";
-                // add second
-                else
+                } else {
                     loggedTime = loggedTime + diff.Seconds.ToString() + " second";
+                }
             }
 
             // just in case a user managed to get no time logged
-            if (!(days || hours || minutes || seconds))
+            if (!(days || hours || minutes || seconds)) {
                 loggedTime = "no time";
+            }
 
             // return string
             return loggedTime;
@@ -328,12 +345,13 @@ namespace BarcodeClocking {
                 int pos = Clist.IndexOf(inputString[i]);
 
                 // make sure it's a valid base-36 char
-                if (pos > -1)
+                if (pos > -1) {
                     // raise position value to place value
                     result += pos * (long)Math.Pow(Clist.Length, pow);
-                else
+                } else {
                     // report invalid value
                     return -1;
+                }
 
                 // procede to the next place value
                 pow++;
@@ -438,14 +456,15 @@ namespace BarcodeClocking {
 
         #endregion
 
-        //http://stackoverflow.com/questions/11952075/timer-refresh-functionality-for-text-box
+        // http://stackoverflow.com/questions/11952075/timer-refresh-functionality-for-text-box
 
         private void clockTimer_Tick(object sender, EventArgs e) {
             Clock.Text = DateTime.Now.ToString("hh:mm:ss tt");
             dateBox.Text = DateTime.Now.ToString("D");
 
-            if (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0 && DateTime.Now.Second == 0)
+            if (DateTime.Now.Hour == 0 && DateTime.Now.Minute == 0 && DateTime.Now.Second == 0) {
                 autoClockOut();
+            }
         }
 
         private void autoClockOut() {

@@ -57,8 +57,9 @@ namespace BarcodeClocking {
             string[] timeLog;
 
             // init hours array
-            for (int ii = 0; ii < 31; ii++)
+            for (int ii = 0; ii < 31; ii++) {
                 hours[ii] = 0.0;
+            }
 
             // change gui
             ButtonGenerate.Text = "Generating Time Sheet . . .";
@@ -116,14 +117,16 @@ namespace BarcodeClocking {
 
                     //Fill name field if last name has value
                     if (employee[2].ToString().Length > 0) {
-                        if ((employee[3].ToString().Length > 0))
+                        if ((employee[3].ToString().Length > 0)) {
                             pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
                                 + ", " + employee[1].ToString() + ", " + employee[3].ToString());
-                        else
+                        } else {
                             pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
                                 + ", " + employee[1].ToString());
-                    } else
+                        }
+                    } else {
                         MessageBox.Show(this, "It appears you haven't added your last name to your profile. Please add your last name so your TimeSheet will be accepted.", "Last name missing!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
 
                     // set student id
@@ -175,20 +178,24 @@ namespace BarcodeClocking {
                                     && (clockedOut >= monthEnd)
                                 )
                             ) {
+                                // TODO make this formatting less hideous
+
                                 // check for both times existing on the same date
                                 if (clockedIn.Date.Equals(clockedOut.Date)) {
                                     // figure out the difference and set time for respective day
                                     hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
-                                }
-                                // figure out time on the respective days between the times
-                                else {
+                                } else {
+                                    // figure out time on the respective days between the times
+
                                     // make sure clocked in time is within respective month
-                                    if (clockedIn < monthStart)
+                                    if (clockedIn < monthStart) {
                                         clockedIn = monthStart;
+                                    }
 
                                     // make sure clocked out time is within respective month
-                                    if (clockedOut >= monthEnd)
+                                    if (clockedOut >= monthEnd) {
                                         clockedOut = monthEnd;
+                                    }
 
                                     // figure out the difference for the first day
                                     DateTime midNight = new DateTime(clockedIn.Year, clockedIn.Month, clockedIn.Day).AddDays(1.0);
@@ -214,14 +221,17 @@ namespace BarcodeClocking {
                             hours[ii] = Math.Round((hours[ii] * 4.0), MidpointRounding.ToEven) / 4.0;
 
                             // check for value greater than 0
-                            if (hours[ii] > 0.0)
+                            if (hours[ii] > 0.0) {
                                 // set hours for respective day
                                 pdfFormFields.SetField((ii + 1).ToString(), hours[ii].ToString("#.00"));
+                            }
                         }
 
                         // set total hours
-                        foreach (double hour in hours)
+                        foreach (double hour in hours) {
                             totalHours += hour;
+                        }
+
                         pdfFormFields.SetField("TOTAL HOURS", totalHours.ToString("#.00"));
                     } catch (Exception err) {
                         MessageBox.Show(this, "There was an error while trying to open your time log file. Was someone playing with the database files?\n\n" + err.Message + "\n\n" + err.StackTrace, "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -248,9 +258,10 @@ namespace BarcodeClocking {
                             // check for process close or wait time-out
                             if (!openedFile.HasExited) {
                                 // notify user the file was not automatically deleted
-                                if (MessageBox.Show(this, "Adobe Reader did not close within 10 minutes. It needs to be closed in order to delete the Time Sheet PDF file (recommended for security). Please close Adobe Reader and click OK to delete the file. Click Cancel to skip deleting the file.", "Process Wait-Close Time Out", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK)
+                                if (MessageBox.Show(this, "Adobe Reader did not close within 10 minutes. It needs to be closed in order to delete the Time Sheet PDF file (recommended for security). Please close Adobe Reader and click OK to delete the file. Click Cancel to skip deleting the file.", "Process Wait-Close Time Out", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK) {
                                     // delete file if requested
                                     File.Delete("StudentTimeSheet.pdf");
+                                }
                             } else
                                 // delete file
                                 File.Delete("StudentTimeSheet.pdf");

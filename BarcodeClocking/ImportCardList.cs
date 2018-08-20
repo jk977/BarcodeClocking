@@ -30,33 +30,31 @@ namespace BarcodeClocking {
         public ImportCardList(string filename) {
             try {
                 string[] array = System.IO.File.ReadAllLines(filename + ".txt");
+
                 foreach (string entry in array) {
-                    string[] item = entry.Split(new char[]
-                    {
-                        '\t'
-                    });
-                    if (item.Length == 6)
+                    string[] item = entry.Split(new char[] { '\t' });
+
+                    if (item.Length == 6) {
                         employeeList.Add(new EmployeeCard(item[0], item[1], item[2], item[3], item[4], item[5]));
-                    else if (item.Length == 5)
+                    } else if (item.Length == 5) {
                         employeeList.Add(new EmployeeCard(item[0], item[1], item[2], "", item[3], item[4]));
+                    }
                 }
+
                 UpdateSql();
             } catch (System.Exception ex) {
                 MessageBox.Show("There was an error while trying to import the old card list.\n\n" + ex.Message, "ImportCardList Error", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-
         }
 
         private void UpdateSql() {
             string dBconnection = "DataSource=" + SQLiteDatabase.fileName;
 
             try {
-
                 using (SQLiteConnection con = new SQLiteConnection(dBconnection)) {
                     con.Open();
 
                     using (SQLiteTransaction tr = con.BeginTransaction()) {
-
                         foreach (EmployeeCard employee in employeeList) {
                             SQLiteCommand insertSQL = new SQLiteCommand("INSERT INTO employees (employeeID, firstName, LastName, MiddleName, hourlyRate, employeeType, currentClockInId) VALUES (@p1,@p2,@p3,@p4,@p5,@p6,@p7)", con);
                             insertSQL.Parameters.AddWithValue("@p1", employee.employeeID);
@@ -66,6 +64,7 @@ namespace BarcodeClocking {
                             insertSQL.Parameters.AddWithValue("@p5", employee.rate);
                             insertSQL.Parameters.AddWithValue("@p6", employee.employeeType);
                             insertSQL.Parameters.AddWithValue("@p7", "0");
+
                             try {
                                 insertSQL.ExecuteNonQuery();
                             } catch (Exception ex) {
@@ -73,21 +72,21 @@ namespace BarcodeClocking {
                             }
 
                             foreach (TimeCombo entry in employee.timeStampsOld) {
-
                                 SQLiteCommand insertTSMP = new SQLiteCommand("INSERT INTO timeStamps (employeeID, clockIn, clockOut) VALUES (@p1, @p2, @p3)", con);
                                 insertTSMP.Parameters.AddWithValue("@p1", employee.employeeID);
                                 insertTSMP.Parameters.AddWithValue("@p2", entry.clockedIn);
-                                if (entry.clockedOut != "")
+
+                                if (entry.clockedOut != "") {
                                     insertTSMP.Parameters.AddWithValue("@p3", entry.clockedOut);
-                                else
+                                } else {
                                     insertTSMP.Parameters.AddWithValue("@p3", DBNull.Value);
+                                }
 
                                 try {
                                     insertTSMP.ExecuteNonQuery();
                                 } catch (Exception ex) {
                                     throw new Exception(ex.Message);
                                 }
-
                             }
 
                             SQLiteCommand mycommand = new SQLiteCommand(con);
@@ -102,16 +101,12 @@ namespace BarcodeClocking {
 
                         tr.Commit();
                     }
+
                     con.Close();
-
                 }
-
             } catch (Exception err) {
                 MessageBox.Show("Error: " + err.Message, "ImportCardError", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
-
         }
-
     }
 }

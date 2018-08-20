@@ -138,27 +138,29 @@ namespace BarcodeClocking {
 
             // check for blank first name
             if (TextBoxFirstName.Text.Length == 0) {
-                if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                if (MessageBox.Show(this, "Are you sure you don't want to provide a first name?\nIf yes, your card ID will be used instead.", "Empty First Name", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes) {
                     TextBoxFirstName.Text = TextBoxCardID.Text;
+                }
             }
 
             // set position type if applicable
-            if (RadioButtonFWS.Checked)
+            if (RadioButtonFWS.Checked) {
                 posType = "FWS";
-            else if (RadioButtonSWS.Checked)
+            } else if (RadioButtonSWS.Checked) {
                 posType = "SWS";
-            else if (RadioButtonMST.Checked)
+            } else if (RadioButtonMST.Checked) {
                 posType = "MST";
-            else if (RadioButtonHED.Checked)
+            } else if (RadioButtonHED.Checked) {
                 posType = "HED";
-            else if (RadioButtonHelp.Checked)
+            } else if (RadioButtonHelp.Checked) {
                 posType = "Help";
-            else if (RadioButtonTutor1.Checked)
+            } else if (RadioButtonTutor1.Checked) {
                 posType = "Tutor1";
-            else if (RadioButtonTutor2.Checked)
+            } else if (RadioButtonTutor2.Checked) {
                 posType = "Tutor2";
-            else if (RadioButtonTANF.Checked)
+            } else if (RadioButtonTANF.Checked) {
                 posType = "TANF";
+            }
 
             try {
                 Dictionary<String, String> data = new Dictionary<String, String>();
@@ -182,8 +184,9 @@ namespace BarcodeClocking {
             // check for unsaved edits
             if (ButtonSave.Enabled) {
                 // ask user if they want to save edits
-                if (MessageBox.Show(this, "Are you sure you want to close? Any unsaved changes will be lost.", "Unsaved Card Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.No)
+                if (MessageBox.Show(this, "Are you sure you want to close? Any unsaved changes will be lost.", "Unsaved Card Changes", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.No) {
                     e.Cancel = true;
+                }
             }
         }
     }

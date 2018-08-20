@@ -24,21 +24,20 @@ namespace BarcodeClocking {
     class Helper {
         static public bool EmployeeExists(string employeeID, SQLiteDatabase sql) {
             // notify user if card wasn't found
-            if (sql.GetDataTable("select * from employees where employeeID=" + employeeID.Trim() + ";").Rows.Count == 1)
+            if (sql.GetDataTable("select * from employees where employeeID=" + employeeID.Trim() + ";").Rows.Count == 1) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
 
         static public void OnKeyPress(object sender, KeyPressEventArgs e) {
-
             e.Handled = !(IsNumberKey(e.KeyChar) || IsActionKey(e.KeyChar));
         }
 
         static private bool IsNumberKey(char key) {
             //Allow 0-9 in Card ID TextBoxes
             return key >= '0' && key <= '9';
-
         }
 
         static private bool IsActionKey(char key) {

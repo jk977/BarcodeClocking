@@ -24,10 +24,12 @@ namespace BarcodeClocking {
 
         public TimeCombo(string timeIn, string timeOut) {
             clockedIn = System.DateTime.FromBinary(long.Parse(timeIn)).ToString(StringFormats.sqlTimeFormat);
-            if (timeOut != "")
+
+            if (timeOut != "") {
                 clockedOut = System.DateTime.FromBinary(long.Parse(timeOut)).ToString(StringFormats.sqlTimeFormat);
-            else
+            } else {
                 clockedOut = timeOut;
+            }
         }
 
         public override string ToString() {
