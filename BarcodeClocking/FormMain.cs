@@ -366,91 +366,69 @@ namespace BarcodeClocking {
         #region ToolStrip Menu Items
 
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
-            // close this app
             Close();
         }
 
         private void ToolStripMenuItemNewCard_Click(object sender, EventArgs e) {
-            // change status
             LabelStatus.Text = "Waiting for new card to be added . . .";
 
-            // show form
             FormAddCard addCardForm = new FormAddCard();
             addCardForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e) {
-            // change status
             LabelStatus.Text = "Waiting for card editing to finish . . .";
 
-            // show form
             FormEditCard editCardForm = new FormEditCard();
             editCardForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void ToolStripMenuItemRemoveCard_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for card removal to complete . . .";
 
-            // show form
             FormRemoveCard removeCardForm = new FormRemoveCard();
             removeCardForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void TimeSheetToolStripMenuItemGenerate_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for time sheet to be generated . . .";
 
-            // show form
             FormGenerate generateForm = new FormGenerate();
             generateForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void ToolStripMenuItemAbout_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for About window to close . . .";
 
-            // show about box
             FormAboutBox aboutBox = new FormAboutBox();
             aboutBox.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void ToolStripMenuItemEditPast_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for past time editor to close . . .";
 
-            // show form
             FormEditPast editForm = new FormEditPast();
             editForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
         private void ToolStripMenuItemAddTime_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for additional time to be added . . .";
 
-            // show form
             FormAddTime addForm = new FormAddTime();
             addForm.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
@@ -483,12 +461,8 @@ namespace BarcodeClocking {
                         string[] clockOutStr = row.ItemArray[3].ToString().Split(':');
                         DateTime clockOut = clockIn.Date + new TimeSpan(int.Parse(clockOutStr[0]), int.Parse(clockOutStr[1]), 0);
 
-
-
-
                         Dictionary<String, String> data = new Dictionary<String, String>();
                         data.Add("clockOut", clockOut.ToString(StringFormats.sqlTimeFormat));
-
 
                         sql.Update("timeStamps", data, "timeStamps.id = " + row.ItemArray[1].ToString());
 
@@ -497,22 +471,16 @@ namespace BarcodeClocking {
                     } catch (Exception err) {
                         File.WriteAllText("AutoClockOutError-" + row.ItemArray[0].ToString() + ".txt", "AutoClockOutError: " + err.Message + "\r\n\r\n");
                     }
-
                 }
-
             }
-
         }
 
         private void editAvgHoursToolStripMenuItem_Click(object sender, EventArgs e) {
-            // update status
             LabelStatus.Text = "Waiting for Avg. Hours window to close . . .";
 
-            // show about box
             EditAvgHours EditAvgHoursBox = new EditAvgHours();
             EditAvgHoursBox.ShowDialog();
 
-            // reset status
             ResetStatus();
         }
 
