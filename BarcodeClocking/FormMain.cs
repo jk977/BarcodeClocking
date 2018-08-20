@@ -365,71 +365,49 @@ namespace BarcodeClocking {
 
         #region ToolStrip Menu Items
 
+        private void ShowCustomDialog<T>(String status) where T : Form, new() {
+            LabelStatus.Text = status;
+
+            T form = new T();
+            form.ShowDialog();
+
+            ResetStatus();
+        }
+
         private void ToolStripMenuItemExit_Click(object sender, EventArgs e) {
             Close();
         }
 
         private void ToolStripMenuItemNewCard_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for new card to be added . . .";
-
-            FormAddCard addCardForm = new FormAddCard();
-            addCardForm.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormAddCard>("Waiting for new card to be added . . .");
         }
 
         private void ToolStripMenuItemEdit_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for card editing to finish . . .";
-
-            FormEditCard editCardForm = new FormEditCard();
-            editCardForm.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormEditCard>("Waiting for card editing to finish . . .");
         }
 
         private void ToolStripMenuItemRemoveCard_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for card removal to complete . . .";
-
-            FormRemoveCard removeCardForm = new FormRemoveCard();
-            removeCardForm.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormRemoveCard>("Waiting for card removal to complete . . .");
         }
 
         private void TimeSheetToolStripMenuItemGenerate_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for time sheet to be generated . . .";
-
-            FormGenerate generateForm = new FormGenerate();
-            generateForm.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormGenerate>("Waiting for time sheet to be generated . . .");
         }
 
         private void ToolStripMenuItemAbout_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for About window to close . . .";
-
-            FormAboutBox aboutBox = new FormAboutBox();
-            aboutBox.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormAboutBox>("Waiting for About window to close . . .");
         }
 
         private void ToolStripMenuItemEditPast_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for past time editor to close . . .";
-
-            FormEditPast editForm = new FormEditPast();
-            editForm.ShowDialog();
-
-            ResetStatus();
+            ShowCustomDialog<FormEditPast>("Waiting for past time editor to close . . .");
         }
 
         private void ToolStripMenuItemAddTime_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for additional time to be added . . .";
+            ShowCustomDialog<FormAddTime>("Waiting for additional time to be added . . .");
+        }
 
-            FormAddTime addForm = new FormAddTime();
-            addForm.ShowDialog();
-
-            ResetStatus();
+        private void editAvgHoursToolStripMenuItem_Click(object sender, EventArgs e) {
+            ShowCustomDialog<EditAvgHours>("Waiting for Avg. Hours window to close . . .");
         }
 
         #endregion
@@ -474,16 +452,6 @@ namespace BarcodeClocking {
                 }
             }
         }
-
-        private void editAvgHoursToolStripMenuItem_Click(object sender, EventArgs e) {
-            LabelStatus.Text = "Waiting for Avg. Hours window to close . . .";
-
-            EditAvgHours EditAvgHoursBox = new EditAvgHours();
-            EditAvgHoursBox.ShowDialog();
-
-            ResetStatus();
-        }
-
     }
 
 }
