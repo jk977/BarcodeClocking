@@ -54,7 +54,6 @@ namespace BarcodeClocking {
             bool found = false;
             double totalHours = 0;
             double[] hours = new double[31];
-            string[] timeLog;
 
             // init hours array
             for (int ii = 0; ii < 31; ii++) {
@@ -87,64 +86,55 @@ namespace BarcodeClocking {
                     // set position type
                     switch (employee[5].ToString()) {
                         case "FWS":
-                            pdfFormFields.SetField("Radio Button1", "0");
-                            break;
                         case "SWS":
-                            pdfFormFields.SetField("Radio Button1", "1");
-                            break;
                         case "MST":
-                            pdfFormFields.SetField("Radio Button1", "2");
-                            break;
                         case "HED":
-                            pdfFormFields.SetField("Radio Button1", "3");
+                            pdfFormFields.SetField("Work Study", "On");
+                            pdfFormFields.SetField("Student Help", "Off");
+                            pdfFormFields.SetField("WorkFirst", "Off");
                             break;
+
                         case "Help":
-                            pdfFormFields.SetField("Radio Button1", "4");
-                            break;
                         case "Tutor1":
-                            pdfFormFields.SetField("Radio Button1", "5");
-                            break;
                         case "Tutor2":
-                            pdfFormFields.SetField("Radio Button1", "6");
+                            pdfFormFields.SetField("Work Study", "Off");
+                            pdfFormFields.SetField("Student Help", "On");
+                            pdfFormFields.SetField("WorkFirst", "Off");
                             break;
+
                         case "TANF":
-                            pdfFormFields.SetField("Radio Button1", "7");
+                            pdfFormFields.SetField("Work Study", "Off");
+                            pdfFormFields.SetField("Student Help", "Off");
+                            pdfFormFields.SetField("WorkFirst", "On");
                             break;
+
                         default:
-                            pdfFormFields.SetField("Radio Button1", "Off");
+                            pdfFormFields.SetField("Work Study", "Off");
+                            pdfFormFields.SetField("Student Help", "Off");
+                            pdfFormFields.SetField("WorkFirst", "Off");
                             break;
                     }
 
                     //Fill name field if last name has value
                     if (employee[2].ToString().Length > 0) {
-                        if ((employee[3].ToString().Length > 0)) {
-                            pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
-                                + ", " + employee[1].ToString() + ", " + employee[3].ToString());
-                        } else {
-                            pdfFormFields.SetField("NAME Last, First, Initial please print", employee[2].ToString()
-                                + ", " + employee[1].ToString());
-                        }
+                        pdfFormFields.SetField("Last Name", employee[2].ToString());
+                        pdfFormFields.SetField("First Name", employee[1].ToString());
+                        pdfFormFields.SetField("Middle Int", employee[3].ToString());
                     } else {
                         MessageBox.Show(this, "It appears you haven't added your last name to your profile. Please add your last name so your TimeSheet will be accepted.", "Last name missing!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
+                    pdfFormFields.SetField("Employee ID", this.employee[0].ToString());
+                    pdfFormFields.SetField("Month", this.ComboBoxMonth.Text);
+                    pdfFormFields.SetField("Year", this.NumericUpDownYear.Value.ToString());
 
-                    // set student id
-                    pdfFormFields.SetField("STUDENT ID", employee[0].ToString());
-
-                    // set month
-                    pdfFormFields.SetField("MONTH", ComboBoxMonth.Text);
-
-                    // set year
-                    pdfFormFields.SetField("YEAR", NumericUpDownYear.Value.ToString());
-
-                    try {
+                    try
+                    {
                         // get time log
                         dt = sql.GetDataTable("select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut "
                              + "from timeStamps where employeeID=" + TextBoxCardID.Text.Trim()
                              + " and cast(strftime('%m', clockIn) as integer) = " + (int)(ComboBoxMonth.SelectedIndex + 1)
                              + " and cast(strftime('%Y', clockIn) as integer) = " + (int)NumericUpDownYear.Value + ";");
-
 
                         // get month beginning and end
                         DateTime monthStart = new DateTime((int)NumericUpDownYear.Value, ComboBoxMonth.SelectedIndex + 1, 1);
@@ -159,7 +149,6 @@ namespace BarcodeClocking {
                             DateTime clockedOut;
                             if (entry.ItemArray[1].ToString().Length == 0) {
                                 MessageBox.Show(this, "It appears you are currently clocked in.\n\n Please make sure to clock out before printing your timesheet\n so that your hours are calcuated correctly.", "You are still clocked in!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                                 clockedOut = DateTime.Now;
                             } else
                                 clockedOut = DateTime.Parse(entry.ItemArray[1].ToString());
@@ -216,18 +205,15 @@ namespace BarcodeClocking {
 
                         // set logged time
                         for (int ii = 0; ii < 31; ii++) {
-                            // round value to nearest fourth
                             // see http://stackoverflow.com/a/2826278/3404349
                             hours[ii] = Math.Round((hours[ii] * 4.0), MidpointRounding.ToEven) / 4.0;
 
-                            // check for value greater than 0
                             if (hours[ii] > 0.0) {
                                 // set hours for respective day
                                 pdfFormFields.SetField((ii + 1).ToString(), hours[ii].ToString("#.00"));
                             }
                         }
 
-                        // set total hours
                         foreach (double hour in hours) {
                             totalHours += hour;
                         }

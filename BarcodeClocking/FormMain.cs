@@ -365,7 +365,7 @@ namespace BarcodeClocking {
 
         #region ToolStrip Menu Items
 
-        private void ShowCustomDialog<T>(String status) where T : Form, new() {
+        private void ShowCustomDialog<T>(String status) where T: Form, new() {
             LabelStatus.Text = status;
 
             T form = new T();
