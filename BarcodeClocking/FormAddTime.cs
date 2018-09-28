@@ -58,9 +58,10 @@ namespace BarcodeClocking {
                         TextBoxCardID.ReadOnly = false;
                         TextBoxCardID.Focus();
                         TextBoxCardID.SelectAll();
-                    } else
+                    } else {
                         // move on to next control
                         DateTimePickerIn.Focus();
+                    }
                 }
             } catch (Exception err) {
                 TextBoxCardID.ReadOnly = false;

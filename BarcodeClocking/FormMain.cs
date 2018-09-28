@@ -87,9 +87,9 @@ namespace BarcodeClocking {
                 if (result == System.Windows.Forms.DialogResult.Yes) {
                     ImportCardList cardList = new ImportCardList("cardList");
                 }
-            } else
+            } else {
                 autoClockOut();
-
+            }
         }
 
 
@@ -223,7 +223,7 @@ namespace BarcodeClocking {
                 // reset input storage
                 LabelInput.Text = "input: ";
                 input = "";
-            } else if (Char.IsDigit(e.KeyChar)) {
+            } else if (Char.IsDigit(e.KeyChar) || e.KeyChar == (char) Keys.Back) {
                 // add the input
                 StoreInput(e.KeyChar);
             }

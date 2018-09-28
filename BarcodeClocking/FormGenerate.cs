@@ -150,8 +150,9 @@ namespace BarcodeClocking {
                             if (entry.ItemArray[1].ToString().Length == 0) {
                                 MessageBox.Show(this, "It appears you are currently clocked in.\n\n Please make sure to clock out before printing your timesheet\n so that your hours are calcuated correctly.", "You are still clocked in!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 clockedOut = DateTime.Now;
-                            } else
+                            } else {
                                 clockedOut = DateTime.Parse(entry.ItemArray[1].ToString());
+                            }
 
                             // make sure some part(s) is/are in the respective month
                             if (
@@ -214,22 +215,20 @@ namespace BarcodeClocking {
                             }
                         }
 
-                        foreach (double hour in hours) {
-                            totalHours += hour;
-                        }
-
-                        pdfFormFields.SetField("TOTAL HOURS", totalHours.ToString("#.00"));
+                        totalHours += hours.Sum();
+                        pdfFormFields.SetField("Total Hrs", totalHours.ToString("#.00"));
                     } catch (Exception err) {
-                        MessageBox.Show(this, "There was an error while trying to open your time log file. Was someone playing with the database files?\n\n" + err.Message + "\n\n" + err.StackTrace, "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(this, "There was an error while trying to open your time " +
+                                              "log file. Was someone playing with the database files?\n\n" +
+                                              err.Message + "\n\n" + err.StackTrace,
+                                        "File Open Error",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
                     }
 
-                    // set hourly rate
-                    pdfFormFields.SetField("HOURLY RATE", employee[4].ToString());
-
-                    // leave the form open to subsequent manual edits
-                    pdfFormFiller.FormFlattening = false;
-
-                    // close the pdf
+                    
+                    pdfFormFields.SetField("Hourly Rate", employee[4].ToString()); // set hourly rate
+                    pdfFormFiller.FormFlattening = false;                          // leave the form open to subsequent manual edits
                     pdfFormFiller.Close();
 
                     try {
@@ -244,13 +243,21 @@ namespace BarcodeClocking {
                             // check for process close or wait time-out
                             if (!openedFile.HasExited) {
                                 // notify user the file was not automatically deleted
-                                if (MessageBox.Show(this, "Adobe Reader did not close within 10 minutes. It needs to be closed in order to delete the Time Sheet PDF file (recommended for security). Please close Adobe Reader and click OK to delete the file. Click Cancel to skip deleting the file.", "Process Wait-Close Time Out", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation) == DialogResult.OK) {
-                                    // delete file if requested
+                                var result = MessageBox.Show(this, "Adobe Reader did not close within 10 " +
+                                                                   "minutes. It needs to be closed in order" +
+                                                                   " to delete the Time Sheet PDF file " +
+                                                                   "(recommended for security). Please close " +
+                                                                   "Adobe Reader and click OK to delete the " +
+                                                                   "file. Click Cancel to skip deleting the file.",
+                                                             "Process Wait-Close Time Out",
+                                                             MessageBoxButtons.OKCancel,
+                                                             MessageBoxIcon.Exclamation);
+                                if (result == DialogResult.OK) {
                                     File.Delete("StudentTimeSheet.pdf");
                                 }
-                            } else
-                                // delete file
+                            } else {
                                 File.Delete("StudentTimeSheet.pdf");
+                            }
                         } catch (Exception err) {
                             MessageBox.Show(this, "There was an error while trying to delete the Student Time Sheet PDF file.\n\n" + err.Message, "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }

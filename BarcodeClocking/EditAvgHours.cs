@@ -96,8 +96,9 @@ namespace BarcodeClocking {
                         }
 
                         SetAddButton();
-                    } else
+                    } else {
                         throw new ArgumentException("The ID you entered does not exist, please make sure ID was entered correctly.");
+                    }
                 } catch (Exception err) {
                     MessageBox.Show(err.Message, "An Error occured!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
