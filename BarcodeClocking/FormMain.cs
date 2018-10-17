@@ -21,7 +21,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using System.Data;
@@ -424,13 +423,14 @@ namespace BarcodeClocking {
         }
 
         private void autoClockOut() {
-            DataTable toClockOut = sql.GetDataTable("select timeStamps.employeeID, "
-            + "timeStamps.id as timeStampId, timeStamps.clockIn, avgHours.clockOut from avgHours "
-            + "join timeStamps join employees where avgHours.employeeID = timeStamps.employeeID "
-            + "and time(timeStamps.clockIn) <= time(avgHours.clockIn, '+15 minutes') "
-            + "and time(timeStamps.clockIn) >= time(avgHours.clockIn, '-15 minutes') "
-            + "and cast(strftime('%w', timeStamps.clockIn) as integer) = avgHours.dayOfWeek "
-            + "and timeStamps.id = employees.currentClockInId;");
+            DataTable toClockOut = sql.GetDataTable(@"
+                select timeStamps.employeeID, timeStamps.id as timeStampId, timeStamps.clockIn, avgHours.clockOut from avgHours
+                join timeStamps join employees where avgHours.employeeID = timeStamps.employeeID
+                and time(timeStamps.clockIn) <= time(avgHours.clockIn, '+15 minutes')
+                and time(timeStamps.clockIn) >= time(avgHours.clockIn, '-15 minutes')
+                and cast(strftime('%w', timeStamps.clockIn) as integer) = avgHours.dayOfWeek
+                and timeStamps.id = employees.currentClockInId;
+            ");
 
             if (toClockOut.Rows.Count > 0) {
                 foreach (DataRow row in toClockOut.Rows) {

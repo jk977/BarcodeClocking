@@ -206,9 +206,6 @@ namespace BarcodeClocking {
 
                         // set logged time
                         for (int ii = 0; ii < 31; ii++) {
-                            // see http://stackoverflow.com/a/2826278/3404349
-                            hours[ii] = Math.Round((hours[ii] * 4.0), MidpointRounding.ToEven) / 4.0;
-
                             if (hours[ii] > 0.0) {
                                 // set hours for respective day
                                 pdfFormFields.SetField((ii + 1).ToString(), hours[ii].ToString("#.00"));
