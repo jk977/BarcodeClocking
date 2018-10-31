@@ -49,8 +49,46 @@ namespace BarcodeClocking {
 
         }
 
+        private void SetEmployeeField(ref AcroFields fields, String employeeType) {
+            switch (employeeType) {
+                case "FWS":
+                case "SWS":
+                case "MST":
+                case "HED":
+                    fields.SetField("Work Study", "On");
+                    fields.SetField("Student Help", "Off");
+                    fields.SetField("WorkFirst", "Off");
+                    break;
+
+                case "Help":
+                case "Tutor1":
+                case "Tutor2":
+                    fields.SetField("Work Study", "Off");
+                    fields.SetField("Student Help", "On");
+                    fields.SetField("WorkFirst", "Off");
+                    break;
+
+                case "TANF":
+                    fields.SetField("Work Study", "Off");
+                    fields.SetField("Student Help", "Off");
+                    fields.SetField("WorkFirst", "On");
+                    break;
+
+                default:
+                    fields.SetField("Work Study", "Off");
+                    fields.SetField("Student Help", "Off");
+                    fields.SetField("WorkFirst", "Off");
+                    break;
+            }
+        }
+
+        private bool IsFileDeleteError(Exception err) {
+            return err is DirectoryNotFoundException
+                || err is IOException
+                || err is UnauthorizedAccessException;
+        }
+
         private void ButtonGenerate_Click(object sender, EventArgs e) {
-            // vars
             bool found = false;
             double totalHours = 0;
             double[] hours = new double[31];
@@ -67,53 +105,20 @@ namespace BarcodeClocking {
             ComboBoxMonth.Enabled = false;
             NumericUpDownYear.Enabled = false;
 
-
-
             dt = sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";");
 
             // check if this is the card we're looking for
             if (dt.Rows.Count == 1) {
-                // mark as found
                 found = true;
-
                 employee = dt.Rows[0].ItemArray;
 
                 try {
                     // create objects for filling in pdf
                     PdfStamper pdfFormFiller = new PdfStamper(new PdfReader(Properties.Resources.StudentTimeSheet), new FileStream("StudentTimeSheet.pdf", FileMode.Create));
                     AcroFields pdfFormFields = pdfFormFiller.AcroFields;
-
+                    
                     // set position type
-                    switch (employee[5].ToString()) {
-                        case "FWS":
-                        case "SWS":
-                        case "MST":
-                        case "HED":
-                            pdfFormFields.SetField("Work Study", "On");
-                            pdfFormFields.SetField("Student Help", "Off");
-                            pdfFormFields.SetField("WorkFirst", "Off");
-                            break;
-
-                        case "Help":
-                        case "Tutor1":
-                        case "Tutor2":
-                            pdfFormFields.SetField("Work Study", "Off");
-                            pdfFormFields.SetField("Student Help", "On");
-                            pdfFormFields.SetField("WorkFirst", "Off");
-                            break;
-
-                        case "TANF":
-                            pdfFormFields.SetField("Work Study", "Off");
-                            pdfFormFields.SetField("Student Help", "Off");
-                            pdfFormFields.SetField("WorkFirst", "On");
-                            break;
-
-                        default:
-                            pdfFormFields.SetField("Work Study", "Off");
-                            pdfFormFields.SetField("Student Help", "Off");
-                            pdfFormFields.SetField("WorkFirst", "Off");
-                            break;
-                    }
+                    SetEmployeeField(ref pdfFormFields, employee[5].ToString());
 
                     //Fill name field if last name has value
                     if (employee[2].ToString().Length > 0) {
@@ -128,13 +133,17 @@ namespace BarcodeClocking {
                     pdfFormFields.SetField("Month", this.ComboBoxMonth.Text);
                     pdfFormFields.SetField("Year", this.NumericUpDownYear.Value.ToString());
 
-                    try
-                    {
+                    try {
                         // get time log
-                        dt = sql.GetDataTable("select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut "
-                             + "from timeStamps where employeeID=" + TextBoxCardID.Text.Trim()
-                             + " and cast(strftime('%m', clockIn) as integer) = " + (int)(ComboBoxMonth.SelectedIndex + 1)
-                             + " and cast(strftime('%Y', clockIn) as integer) = " + (int)NumericUpDownYear.Value + ";");
+                        dt = sql.GetDataTable(String.Format(@"
+                             select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut
+                             from timeStamps where employeeID={0}
+                             and cast(strftime('%m', clockIn) as integer) = {1}
+                             and cast(strftime('%Y', clockIn) as integer) = {2};",
+                             TextBoxCardID.Text.Trim(),
+                             ComboBoxMonth.SelectedIndex + 1,
+                             (int) NumericUpDownYear.Value)
+                        );
 
                         // get month beginning and end
                         DateTime monthStart = new DateTime((int)NumericUpDownYear.Value, ComboBoxMonth.SelectedIndex + 1, 1);
@@ -255,7 +264,7 @@ namespace BarcodeClocking {
                             } else {
                                 File.Delete("StudentTimeSheet.pdf");
                             }
-                        } catch (Exception err) {
+                        } catch (Exception err) when (IsFileDeleteError(err)) {
                             MessageBox.Show(this, "There was an error while trying to delete the Student Time Sheet PDF file.\n\n" + err.Message, "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     } catch (Exception err) {
