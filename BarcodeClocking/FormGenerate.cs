@@ -33,7 +33,7 @@ namespace BarcodeClocking {
         private char[] invalidChars;
         private SQLiteDatabase sql = new SQLiteDatabase();
         private DataTable dt;
-        private object[] employee;
+        private EmployeeCard employee;
 
         public FormGenerate() {
             InitializeComponent();
@@ -88,6 +88,27 @@ namespace BarcodeClocking {
                 || err is UnauthorizedAccessException;
         }
 
+        private EmployeeCard GetCurrentEmployee() {
+            String query = String.Format("select * from employees where employeeID={0};", TextBoxCardID.Text.Trim());
+            DataTable dt = sql.GetDataTable(query);
+
+            if (dt.Rows.Count > 0) {
+                return (EmployeeCard) dt.Rows[0].ItemArray;
+            } else {
+                return null;
+            }
+        }
+
+        private void ResetGui() {
+            TextBoxCardID.Enabled = true;
+            ComboBoxMonth.Enabled = true;
+            NumericUpDownYear.Enabled = true;
+            ButtonGenerate.Enabled = true;
+            ButtonGenerate.Text = "Generate Time Sheet";
+            TextBoxCardID.Focus();
+            TextBoxCardID.SelectAll();
+        }
+
         private void ButtonGenerate_Click(object sender, EventArgs e) {
             bool found = false;
             double totalHours = 0;
@@ -105,192 +126,176 @@ namespace BarcodeClocking {
             ComboBoxMonth.Enabled = false;
             NumericUpDownYear.Enabled = false;
 
-            dt = sql.GetDataTable("select * from employees where employeeID=" + TextBoxCardID.Text.Trim() + ";");
+            employee = GetCurrentEmployee();
 
-            // check if this is the card we're looking for
-            if (dt.Rows.Count == 1) {
-                found = true;
-                employee = dt.Rows[0].ItemArray;
+            if (employee == null) {
+                MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ResetGui();
+                return;
+            }
+
+            try {
+                // create objects for filling in pdf
+                PdfStamper pdfFormFiller = new PdfStamper(new PdfReader(Properties.Resources.StudentTimeSheet), new FileStream("StudentTimeSheet.pdf", FileMode.Create));
+                AcroFields pdfFormFields = pdfFormFiller.AcroFields;
+
+                SetEmployeeField(ref pdfFormFields, employee.employeeType);
+
+                //Fill name field if last name has value
+                if (employee.lastName.Length > 0) {
+                    pdfFormFields.SetField("Last Name", employee.lastName);
+                    pdfFormFields.SetField("First Name", employee.firstName);
+                    pdfFormFields.SetField("Middle Int", employee.middle);
+                } else {
+                    MessageBox.Show(this, "It appears you haven't added your last name to your profile. Please add your last name so your TimeSheet will be accepted.", "Last name missing!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                pdfFormFields.SetField("Employee ID", employee.employeeID);
+                pdfFormFields.SetField("Month", ComboBoxMonth.Text);
+                pdfFormFields.SetField("Year", NumericUpDownYear.Value.ToString());
 
                 try {
-                    // create objects for filling in pdf
-                    PdfStamper pdfFormFiller = new PdfStamper(new PdfReader(Properties.Resources.StudentTimeSheet), new FileStream("StudentTimeSheet.pdf", FileMode.Create));
-                    AcroFields pdfFormFields = pdfFormFiller.AcroFields;
-                    
-                    // set position type
-                    SetEmployeeField(ref pdfFormFields, employee[5].ToString());
+                    // get time log
+                    dt = sql.GetDataTable(String.Format(@"
+                            select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut
+                            from timeStamps where employeeID={0}
+                            and cast(strftime('%m', clockIn) as integer) = {1}
+                            and cast(strftime('%Y', clockIn) as integer) = {2};",
+                            TextBoxCardID.Text.Trim(),
+                            ComboBoxMonth.SelectedIndex + 1,
+                            (int) NumericUpDownYear.Value)
+                    );
 
-                    //Fill name field if last name has value
-                    if (employee[2].ToString().Length > 0) {
-                        pdfFormFields.SetField("Last Name", employee[2].ToString());
-                        pdfFormFields.SetField("First Name", employee[1].ToString());
-                        pdfFormFields.SetField("Middle Int", employee[3].ToString());
-                    } else {
-                        MessageBox.Show(this, "It appears you haven't added your last name to your profile. Please add your last name so your TimeSheet will be accepted.", "Last name missing!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    // get month beginning and end
+                    DateTime monthStart = new DateTime((int)NumericUpDownYear.Value, ComboBoxMonth.SelectedIndex + 1, 1);
+                    DateTime monthEnd = monthStart.AddMonths(1);
 
-                    pdfFormFields.SetField("Employee ID", this.employee[0].ToString());
-                    pdfFormFields.SetField("Month", this.ComboBoxMonth.Text);
-                    pdfFormFields.SetField("Year", this.NumericUpDownYear.Value.ToString());
+                    // go through each clock-in/-out entry
+                    foreach (DataRow entry in dt.Rows) {
+                        // get start time
+                        DateTime clockedIn = DateTime.Parse(entry.ItemArray[0].ToString());
 
-                    try {
-                        // get time log
-                        dt = sql.GetDataTable(String.Format(@"
-                             select strftime('%m/%d/%Y %H:%M:%S', clockIn) as clockIn, strftime('%m/%d/%Y %H:%M:%S', clockOut) as clockOut
-                             from timeStamps where employeeID={0}
-                             and cast(strftime('%m', clockIn) as integer) = {1}
-                             and cast(strftime('%Y', clockIn) as integer) = {2};",
-                             TextBoxCardID.Text.Trim(),
-                             ComboBoxMonth.SelectedIndex + 1,
-                             (int) NumericUpDownYear.Value)
-                        );
-
-                        // get month beginning and end
-                        DateTime monthStart = new DateTime((int)NumericUpDownYear.Value, ComboBoxMonth.SelectedIndex + 1, 1);
-                        DateTime monthEnd = monthStart.AddMonths(1);
-
-                        // go through each clock-in/-out entry
-                        foreach (DataRow entry in dt.Rows) {
-                            // get start time
-                            DateTime clockedIn = DateTime.Parse(entry.ItemArray[0].ToString());
-
-                            // watch for an entry that doesn't have a clock-out time yet
-                            DateTime clockedOut;
-                            if (entry.ItemArray[1].ToString().Length == 0) {
-                                MessageBox.Show(this, "It appears you are currently clocked in.\n\n Please make sure to clock out before printing your timesheet\n so that your hours are calcuated correctly.", "You are still clocked in!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                clockedOut = DateTime.Now;
-                            } else {
-                                clockedOut = DateTime.Parse(entry.ItemArray[1].ToString());
-                            }
-
-                            // make sure some part(s) is/are in the respective month
-                            if (
-                                // clocked in time is within month and year
-                                (clockedIn.Month.Equals(ComboBoxMonth.SelectedIndex + 1) && clockedIn.Year.Equals((int)NumericUpDownYear.Value))
-                                // clocked out time is within month and year
-                                || (clockedOut.Month.Equals(ComboBoxMonth.SelectedIndex + 1) && clockedOut.Year.Equals((int)NumericUpDownYear.Value))
-                                // month and year are between clocked in and out times
-                                || (
-                                    // clocked in before date
-                                    (clockedIn < monthStart)
-                                    // clocked out after date
-                                    && (clockedOut >= monthEnd)
-                                )
-                            ) {
-                                // TODO make this formatting less hideous
-
-                                // check for both times existing on the same date
-                                if (clockedIn.Date.Equals(clockedOut.Date)) {
-                                    // figure out the difference and set time for respective day
-                                    hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
-                                } else {
-                                    // figure out time on the respective days between the times
-
-                                    // make sure clocked in time is within respective month
-                                    if (clockedIn < monthStart) {
-                                        clockedIn = monthStart;
-                                    }
-
-                                    // make sure clocked out time is within respective month
-                                    if (clockedOut >= monthEnd) {
-                                        clockedOut = monthEnd;
-                                    }
-
-                                    // figure out the difference for the first day
-                                    DateTime midNight = new DateTime(clockedIn.Year, clockedIn.Month, clockedIn.Day).AddDays(1.0);
-                                    hours[clockedIn.Day - 1] += (midNight - clockedIn).TotalHours;
-
-                                    // add 24 hours for each full day between clocked in and out times
-                                    clockedIn = midNight;
-                                    while (clockedIn.Day < clockedOut.Day) {
-                                        hours[clockedIn.Day - 1] += 24.0;
-                                        clockedIn = clockedIn.AddDays(1.0);
-                                    }
-
-                                    // figure out the difference for the last day
-                                    hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
-                                }
-                            }
+                        // watch for an entry that doesn't have a clock-out time yet
+                        DateTime clockedOut;
+                        if (entry.ItemArray[1].ToString().Length == 0) {
+                            MessageBox.Show(this, "It appears you are currently clocked in.\n\n Please make sure to clock out before printing your timesheet\n so that your hours are calcuated correctly.", "You are still clocked in!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            clockedOut = DateTime.Now;
+                        } else {
+                            clockedOut = DateTime.Parse(entry.ItemArray[1].ToString());
                         }
 
-                        // set logged time
-                        for (int ii = 0; ii < 31; ii++) {
-                            if (hours[ii] > 0.0) {
-                                // set hours for respective day
-                                pdfFormFields.SetField((ii + 1).ToString(), hours[ii].ToString("#.00"));
+                        // make sure some part(s) is/are in the respective month
+                        if (
+                            // clocked in time is within month and year
+                            (clockedIn.Month.Equals(ComboBoxMonth.SelectedIndex + 1) && clockedIn.Year.Equals((int)NumericUpDownYear.Value))
+                            // clocked out time is within month and year
+                            || (clockedOut.Month.Equals(ComboBoxMonth.SelectedIndex + 1) && clockedOut.Year.Equals((int)NumericUpDownYear.Value))
+                            // month and year are between clocked in and out times
+                            || (
+                                // clocked in before date
+                                (clockedIn < monthStart)
+                                // clocked out after date
+                                && (clockedOut >= monthEnd)
+                            )
+                        ) {
+                            // TODO make this formatting less hideous
+
+                            // check for both times existing on the same date
+                            if (clockedIn.Date.Equals(clockedOut.Date)) {
+                                // figure out the difference and set time for respective day
+                                hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
+                            } else {
+                                // figure out time on the respective days between the times
+
+                                // make sure clocked in time is within respective month
+                                if (clockedIn < monthStart) {
+                                    clockedIn = monthStart;
+                                }
+
+                                // make sure clocked out time is within respective month
+                                if (clockedOut >= monthEnd) {
+                                    clockedOut = monthEnd;
+                                }
+
+                                // figure out the difference for the first day
+                                DateTime midNight = new DateTime(clockedIn.Year, clockedIn.Month, clockedIn.Day).AddDays(1.0);
+                                hours[clockedIn.Day - 1] += (midNight - clockedIn).TotalHours;
+
+                                // add 24 hours for each full day between clocked in and out times
+                                clockedIn = midNight;
+                                while (clockedIn.Day < clockedOut.Day) {
+                                    hours[clockedIn.Day - 1] += 24.0;
+                                    clockedIn = clockedIn.AddDays(1.0);
+                                }
+
+                                // figure out the difference for the last day
+                                hours[clockedIn.Day - 1] += (clockedOut - clockedIn).TotalHours;
                             }
                         }
-
-                        totalHours += hours.Sum();
-                        pdfFormFields.SetField("Total Hrs", totalHours.ToString("#.00"));
-                    } catch (Exception err) {
-                        MessageBox.Show(this, "There was an error while trying to open your time " +
-                                              "log file. Was someone playing with the database files?\n\n" +
-                                              err.Message + "\n\n" + err.StackTrace,
-                                        "File Open Error",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
                     }
 
+                    // set logged time
+                    for (int ii = 0; ii < 31; ii++) {
+                        if (hours[ii] > 0.0) {
+                            // set hours for respective day
+                            pdfFormFields.SetField((ii + 1).ToString(), hours[ii].ToString("#.00"));
+                        }
+                    }
+
+                    totalHours += hours.Sum();
+                    pdfFormFields.SetField("Total Hrs", totalHours.ToString("#.00"));
+                } catch (Exception err) {
+                    MessageBox.Show(this, "There was an error while trying to open your time " +
+                                            "log file. Was someone playing with the database files?\n\n" +
+                                            err.Message + "\n\n" + err.StackTrace,
+                                    "File Open Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                }
+
                     
-                    pdfFormFields.SetField("Hourly Rate", employee[4].ToString()); // set hourly rate
-                    pdfFormFiller.FormFlattening = false;                          // leave the form open to subsequent manual edits
-                    pdfFormFiller.Close();
+                pdfFormFields.SetField("Hourly Rate", employee.rate); // set hourly rate
+                pdfFormFiller.FormFlattening = false;                          // leave the form open to subsequent manual edits
+                pdfFormFiller.Close();
+
+                try {
+                    // open finished pdf file
+                    Process openedFile = Process.Start("StudentTimeSheet.pdf");
+
+                    // wait up to 10 minutes for process to close
+                    ButtonGenerate.Text = "Waiting for Adobe Reader to close . . .";
+                    openedFile.WaitForExit(600000);
 
                     try {
-                        // open finished pdf file
-                        Process openedFile = Process.Start("StudentTimeSheet.pdf");
-
-                        // wait up to 10 minutes for process to close
-                        ButtonGenerate.Text = "Waiting for Adobe Reader to close . . .";
-                        openedFile.WaitForExit(600000);
-
-                        try {
-                            // check for process close or wait time-out
-                            if (!openedFile.HasExited) {
-                                // notify user the file was not automatically deleted
-                                var result = MessageBox.Show(this, "Adobe Reader did not close within 10 " +
-                                                                   "minutes. It needs to be closed in order" +
-                                                                   " to delete the Time Sheet PDF file " +
-                                                                   "(recommended for security). Please close " +
-                                                                   "Adobe Reader and click OK to delete the " +
-                                                                   "file. Click Cancel to skip deleting the file.",
-                                                             "Process Wait-Close Time Out",
-                                                             MessageBoxButtons.OKCancel,
-                                                             MessageBoxIcon.Exclamation);
-                                if (result == DialogResult.OK) {
-                                    File.Delete("StudentTimeSheet.pdf");
-                                }
-                            } else {
+                        // check for process close or wait time-out
+                        if (!openedFile.HasExited) {
+                            // notify user the file was not automatically deleted
+                            var result = MessageBox.Show(this, "Adobe Reader did not close within 10 " +
+                                                                "minutes. It needs to be closed in order" +
+                                                                " to delete the Time Sheet PDF file " +
+                                                                "(recommended for security). Please close " +
+                                                                "Adobe Reader and click OK to delete the " +
+                                                                "file. Click Cancel to skip deleting the file.",
+                                                            "Process Wait-Close Time Out",
+                                                            MessageBoxButtons.OKCancel,
+                                                            MessageBoxIcon.Exclamation);
+                            if (result == DialogResult.OK) {
                                 File.Delete("StudentTimeSheet.pdf");
                             }
-                        } catch (Exception err) when (IsFileDeleteError(err)) {
-                            MessageBox.Show(this, "There was an error while trying to delete the Student Time Sheet PDF file.\n\n" + err.Message, "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        } else {
+                            File.Delete("StudentTimeSheet.pdf");
                         }
-                    } catch (Exception err) {
-                        MessageBox.Show(this, "There was an error while trying to open the PDF file for your review.\n\n" + err.Message, "Open File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    } catch (Exception err) when (IsFileDeleteError(err)) {
+                        MessageBox.Show(this, "There was an error while trying to delete the Student Time Sheet PDF file.\n\n" + err.Message, "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-
-
                 } catch (Exception err) {
-                    MessageBox.Show(this, "There was an error while trying to create the PDF file.\n\n" + err.Message, "File Creation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, "There was an error while trying to open the PDF file for your review.\n\n" + err.Message, "Open File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            } catch (Exception err) {
+                MessageBox.Show(this, "There was an error while trying to create the PDF file.\n\n" + err.Message, "File Creation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
-            // notify user if card wasn't found
-            if (!found) {
-                MessageBox.Show(this, "The card you entered wasn't found. Are you sure you typed it in correctly?", "Card Not Found!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            // reset gui
-            TextBoxCardID.Enabled = true;
-            ComboBoxMonth.Enabled = true;
-            NumericUpDownYear.Enabled = true;
-            ButtonGenerate.Enabled = true;
-            ButtonGenerate.Text = "Generate Time Sheet";
-            TextBoxCardID.Focus();
-            TextBoxCardID.SelectAll();
+            ResetGui();
         }
     }
 }

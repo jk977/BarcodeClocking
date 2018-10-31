@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace BarcodeClocking {
     class EmployeeCard {
@@ -22,6 +23,18 @@ namespace BarcodeClocking {
             employeeType = eT;
 
             LoadTimeStamps();
+        }
+
+        public static explicit operator EmployeeCard(object[] objs) {
+            // converts array of objects to EmployeeCard to improve readability in other areas
+            // of the code (especially FormGenerate)
+
+            if (objs.Length < 6) {
+                throw new InvalidCastException(String.Format("Object array must have 6 elements to cast to EmployeeCard (got {0}).", objs.Length));
+            }
+
+            String[] fields = objs.Select(obj => obj.ToString()).ToArray();
+            return new EmployeeCard(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
         }
 
         private void LoadTimeStamps() {
